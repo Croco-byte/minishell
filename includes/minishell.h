@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:54:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 17:05:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ void	exec_bin(t_minish *mini);
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **args);
 int		ft_cd(char **args);
-<<<<<<< HEAD
 int		ft_echo(char **args);
-=======
-int 	ft_echo(char **args);
->>>>>>> 6fd11974ffc9f15d93ddf577c9d7a1e54ad425d0
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
@@ -69,5 +65,5 @@ void	free_args(char **args);
 
 /* TODO QUENTIN :
 	- Créer une liste chaînée pour gérer les variables d'environnement.
-
+	- Export sans argument derrière : simple affichage de env. Avec un argument : ajoute la variable à l'environnement.
 */

@@ -6,13 +6,12 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:44:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 16:59:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* NOTE : using execvp instead of execve for the moment, since environment functionality isn't yet implemented */
 void	exec_bin(t_minish *mini)
 {
 	int pid;
