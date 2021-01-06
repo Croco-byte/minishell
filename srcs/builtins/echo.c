@@ -1,7 +1,21 @@
-int ft_echo(char **args)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
+/*   Updated: 2021/01/06 16:23:40 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	ft_echo(char **args)
 {
-	int i;
-	int option_n;
+	int	i;
+	int	option_n;
 
 
 	i = 1;
@@ -23,5 +37,5 @@ int ft_echo(char **args)
 	}
 	if (option_n == 0)
 		write(1, "\n", 1);
-	return (1);
+	return (SUCCESS);
 }
