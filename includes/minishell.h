@@ -40,6 +40,7 @@ void	exec_bin(char **args);
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **args);
 int		ft_cd(char **args);
+int		ft_echo(char **args);
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
