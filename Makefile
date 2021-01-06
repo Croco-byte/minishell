@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/05 15:18:35 by user42            #+#    #+#              #
-#    Updated: 2021/01/06 13:52:15 by user42           ###   ########.fr        #
+#    Updated: 2021/01/06 15:56:45 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = -L libft -lft
 HEADER = minishell.h
 
 MAIN = minishell
-BUILTINS = pwd
+BUILTINS = pwd cd
 EXEC = bin builtin exec
 PARSING = parse
 UTILS = utilities free

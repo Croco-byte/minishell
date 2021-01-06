@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 13:49:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 15:56:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	exec_bin(char **args);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **args);
+int		ft_cd(char **args);
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);

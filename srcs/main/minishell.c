@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 13:48:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 15:57:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void	minish_loop(void)
 }
 
 
-int	main(void)
+int	main(int argc, char *argv[], char *env[])
 {
+	(void)argc;
+	(void)argv;
+	(void)env;
 	minish_loop();
-
 	return (0);
 }
