@@ -47,7 +47,11 @@ void	exec_bin(t_minish *mini);
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **args);
 int		ft_cd(char **args);
+<<<<<<< HEAD
+int		ft_echo(char **args);
+=======
 int 	ft_echo(char **args);
+>>>>>>> 6fd11974ffc9f15d93ddf577c9d7a1e54ad425d0
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
