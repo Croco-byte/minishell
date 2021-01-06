@@ -3,6 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: m4nu </var/spool/mail/m4nu>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 16:31:05 by m4nu              #+#    #+#             */
@@ -11,9 +12,21 @@
 /* ************************************************************************** */
 
 int ft_echo(char **args)
+=======
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
+/*   Updated: 2021/01/06 16:23:40 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	ft_echo(char **args)
+>>>>>>> 6fd11974ffc9f15d93ddf577c9d7a1e54ad425d0
 {
-	int i;
-	int option_n;
+	int	i;
+	int	option_n;
 
 
 	i = 1;
@@ -35,5 +48,9 @@ int ft_echo(char **args)
 	}
 	if (option_n == 0)
 		write(1, "\n", 1);
+<<<<<<< HEAD
 	return (1);
+=======
+	return (SUCCESS);
+>>>>>>> 6fd11974ffc9f15d93ddf577c9d7a1e54ad425d0
 }
