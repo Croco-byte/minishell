@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:23:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 16:54:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,20 @@
 # include "get_next_line.h"
 # include "libft.h"
 
-/* DECLARATION OF MAIN FUNCTIONS */
+typedef struct s_minish
+{
+	char	**args;
+	char	**env;
+}			t_minish;
 
+
+/* DECLARATION OF MAIN FUNCTIONS */
+void	minish_loop(t_minish *mini);
 
 /* DECLARATION OF EXEC FUNCTIONS */
-void	exec_cmd(char **args);
-void	exec_builtin(char **args);
-void	exec_bin(char **args);
+void	exec_cmd(t_minish *mini);
+void	exec_builtin(t_minish *mini);
+void	exec_bin(t_minish *mini);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **args);
@@ -53,3 +60,10 @@ void	ft_prompt(void);
 void	free_args(char **args);
 
 #endif
+
+
+
+/* TODO QUENTIN :
+	- Créer une liste chaînée pour gérer les variables d'environnement.
+
+*/

@@ -6,17 +6,21 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:23:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 16:37:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* TODO :
+	- Flag -n : le cas de "echo -nnnnn"
+	- La gestion de l'escaping character \ et des characters spéciaux : par exemple "echo hey\\nyou"
+*/
+
 int	ft_echo(char **args)
 {
 	int	i;
 	int	option_n;
-
 
 	i = 1;
 	option_n = 0;
