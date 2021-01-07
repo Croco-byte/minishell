@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/05 15:18:35 by user42            #+#    #+#              #
-#    Updated: 2021/01/07 16:37:38 by user42           ###   ########.fr        #
+#    Updated: 2021/01/07 21:54:06 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ HEADER = minishell.h
 MAIN = minishell
 BUILTINS = pwd cd echo env export
 EXEC = bin builtin exec
-PARSING = parse
+PARSING = parse utils
 UTILS = utilities free
 ENV = init
 
