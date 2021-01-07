@@ -55,10 +55,14 @@ typedef struct s_minish
 	char	**args;
 	char	**env;
 
+	int	fdin;
+	int	fdout;
 	int	pid;
 	int	parent_pid;
 	int	in;
+	int	pipin;
 	int	out;
+	int	pipout;
 	int	ret;
 	int	exit;
 
@@ -108,7 +112,8 @@ int	i_sep(char *line, int i);
 int	checkline(t_token *token);
 int	valid_arg(t_token *token);
 t_token	*prev_separator(t_token *token, int i);
-
+t_token	*next_separator(t_token *token, int i);
+t_token	*next_cmd(t_token *token, int i);
 
 
 void	ft_prompt(void);
