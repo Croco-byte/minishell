@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 18:02:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 21:52:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,28 @@
 # define SUCCESS 1
 # define ERROR 0
 
+
 # define SEPARATORS " \t\r\n\a\v"
+
+# define EMPTY 0
+# define CMD 1
+# define ARG 2
+# define INFILE 3
+# define OUTFILE 4
+# define APPEND 5
+# define END 6
+# define PIPE 7
+
+# define STDIN 0
+# define STOUT 1
+# define STDERR 2
+
+# define SKIP 1
+# define NOSKIP 0
+
+# define CD_NOTDIR	("Error Opening directory.")
+# define CD_NOPEM	("Permission denied.")
+# define UNKNOWN_COMMAND	("command not found: ")
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -35,13 +56,33 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
+
 typedef struct s_minish
 {
 	char	**args;
 	char	**env;
 	t_env	*parsed_env;
+
+	int	fdin;
+	int	fdout;
+	int	pid;
+	int	parent_pid;
+	int	in;
+	int	pipin;
+	int	out;
+	int	pipout;
+	int	ret;
+	int	exit;
+
 }			t_minish;
 
+typedef struct s_token
+{
+	char	*str;
+	int	type;
+	struct	s_token	*prev;
+	struct	s_token	*next;
+}		t_token;
 
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
@@ -71,6 +112,26 @@ char	**parse_line(char *line);
 int		is_builtin(char *prog_name);
 int		args_number(char **args);
 int		env_var_nb(t_env *parsed_env);
+
+/* DECLARATION OF TYPES */
+
+int	_type(t_token *token, int type);
+int	_types(t_token *token, char *types);
+int	__pipe(t_token *token);
+int	__type(t_token *token, int type);
+
+/* DECLARATION OF PARSER */
+
+int	quotes(char *line, int index);
+int	sep(char *line, int i);
+int	i_sep(char *line, int i);
+int	checkline(t_token *token);
+int	valid_arg(t_token *token);
+t_token	*prev_separator(t_token *token, int i);
+t_token	*next_separator(t_token *token, int i);
+t_token	*next_cmd(t_token *token, int i);
+
+
 void	ft_prompt(void);
 void	display_strarray(char **strarray);
 char	**copy_strarray(char **src);
