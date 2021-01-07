@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:04:06 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 15:54:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 17:13:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_gnljoin(char const *s1, char const *s2)
 {
 	size_t	i;
 	size_t	k;

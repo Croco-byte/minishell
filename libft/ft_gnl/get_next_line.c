@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:06:56 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 15:53:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 17:22:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	get_next_line(int fd, char **line)
 		if (reader == -1)
 			return (-1);
 		buff[reader] = '\0';
-		save = ft_strjoin(save, buff);
+		save = ft_gnljoin(save, buff);
 	}
 	free(buff);
 	*line = line_from_save(save);

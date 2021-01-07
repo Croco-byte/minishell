@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:42:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 17:20:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,21 @@ void	minish_loop(t_minish *mini)
 		exec_cmd(mini);
 
 		free(line);
-		free_args(mini->args);
+		free_strarray(mini->args);
 	}
 }
 
+void	display_parsed_env(t_minish *mini)
+{
+	int	i;
+	
+	i = 0;
+	while (mini->parsed_env[i].key)
+	{
+		ft_printf("|%s| = |%s|\n", mini->parsed_env[i].key, mini->parsed_env[i].value);
+		i++;
+	}
+}
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -38,7 +49,11 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argc;
 	(void)argv;
 	mini.args = 0;
-	mini.env = env;
+	mini.env = 0;
+	parse_env(&mini, env);
+	mini.env = update_env(mini.env, mini.parsed_env);
 	minish_loop(&mini);
+	free_strarray(mini.env);
+	free_parsed_env(mini.parsed_env);
 	return (0);
 }

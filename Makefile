@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/05 15:18:35 by user42            #+#    #+#              #
-#    Updated: 2021/01/06 16:20:37 by user42           ###   ########.fr        #
+#    Updated: 2021/01/07 16:37:38 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,16 +21,18 @@ LIBFT = -L libft -lft
 HEADER = minishell.h
 
 MAIN = minishell
-BUILTINS = pwd cd echo
+BUILTINS = pwd cd echo env export
 EXEC = bin builtin exec
 PARSING = parse
 UTILS = utilities free
+ENV = init
 
 SRCS =	$(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
 		$(addsuffix .c, $(addprefix srcs/builtins/, $(BUILTINS))) \
 		$(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
 		$(addsuffix .c, $(addprefix srcs/exec/, $(EXEC))) \
-		$(addsuffix .c, $(addprefix srcs/utils/, $(UTILS)))
+		$(addsuffix .c, $(addprefix srcs/utils/, $(UTILS))) \
+		$(addsuffix .c, $(addprefix srcs/env/, $(ENV)))
 
 OBJS = ${SRCS:.c=.o}
 

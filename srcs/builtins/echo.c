@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 16:59:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 11:44:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@
 	- La gestion de l'escaping character \ et des characters spéciaux : par exemple "echo hey\\nyou"
 */
 
-int	ft_echo(char **args)
+int	ft_echo(t_minish *mini)
 {
 	int	i;
 	int	option_n;
 
 	i = 1;
 	option_n = 0;
-	if (args_number(args) > 1)
+	if (args_number(mini->args) > 1)
 	{
-		while (args[i] != 0 && ft_strcmp(args[i], "-n") == 0)
+		while (mini->args[i] != 0 && ft_strcmp(mini->args[i], "-n") == 0)
 		{
 			option_n = 1;
 			i++;
 		}
-		while (args[i])
+		while (mini->args[i])
 		{
-			ft_putstr_fd(args[i], 1);
-			if (args[i + 1] && args[i][0] != '\0')
+			ft_putstr_fd(mini->args[i], 1);
+			if (mini->args[i + 1] && mini->args[i][0] != '\0')
 				write(1, " ", 1);
 			i++;
 		}

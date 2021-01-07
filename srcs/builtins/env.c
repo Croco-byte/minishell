@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 18:05:31 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 17:52:44 by user42           ###   ########.fr       */
+/*   Created: 2021/01/07 11:39:42 by user42            #+#    #+#             */
+/*   Updated: 2021/01/07 17:22:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+int	ft_env(t_minish *mini)
 {
-	int		i;
-	char	*copy;
-
-	i = 0;
-	copy = malloc((ft_strlen(s) + 1) *sizeof(char));
-	if (copy == NULL)
-		return (NULL);
-	while (s[i])
+	if (args_number(mini->args) > 1)
 	{
-		copy[i] = s[i];
-		i++;
+		ft_putendl_fd("env: option or argument not recognized", 1);
+		return (ERROR);
 	}
-	copy[i] = '\0';
-	return (copy);
+	display_strarray(mini->env);
+	return (SUCCESS);
 }

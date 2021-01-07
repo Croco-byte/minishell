@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/06 17:05:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/07 18:02:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,17 @@
 # include "get_next_line.h"
 # include "libft.h"
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+}			t_env;
+
 typedef struct s_minish
 {
 	char	**args;
 	char	**env;
+	t_env	*parsed_env;
 }			t_minish;
 
 
@@ -45,25 +52,38 @@ void	exec_builtin(t_minish *mini);
 void	exec_bin(t_minish *mini);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
-int		ft_pwd(char **args);
-int		ft_cd(char **args);
-int		ft_echo(char **args);
+int		ft_pwd(t_minish *mini);
+int		ft_cd(t_minish *mini);
+int		ft_echo(t_minish *mini);
+int		ft_env(t_minish *mini);
+int		ft_export(t_minish *mini);
+
+/* DECLARATION OF ENV FUNCTIONS */
+void	parse_env(t_minish *mini, char **env);
+char	**update_env(char **env, t_env *parsed_env);
+int		get_key_len(char *var);
+char	*get_value(char *var, int pos);
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
 
 /* DECLARATION OF UTILITIES FUNCTIONS */
-void	display_args(char **args);
 int		is_builtin(char *prog_name);
 int		args_number(char **args);
+int		env_var_nb(t_env *parsed_env);
 void	ft_prompt(void);
-void	free_args(char **args);
+void	display_strarray(char **strarray);
+char	**copy_strarray(char **src);
+void	sort_strarray(char **to_sort);
+void	free_strarray(char **args);
+void	free_parsed_env(t_env *parsed_env);
+
 
 #endif
 
 
 
 /* TODO QUENTIN :
-	- Créer une liste chaînée pour gérer les variables d'environnement.
-	- Export sans argument derrière : simple affichage de env. Avec un argument : ajoute la variable à l'environnement.
+	- Pour afficher ou trier puis afficher l'environnement, passer par la version parsée.
+	- Afficher les valeurs entre guillemets pour l'affichage, comme en bash classique.
 */
