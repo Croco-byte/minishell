@@ -6,11 +6,19 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 16:42:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 15:43:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clean_exit(t_minish *mini)
+{
+	ft_putendl_fd("Bye ! 👋", 1);
+	free_strarray(mini->env);
+	free_parsed_env(mini->parsed_env);
+	exit(0);
+}
 
 void	free_strarray(char **args)
 {

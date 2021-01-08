@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:35:25 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 12:13:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 15:41:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,8 @@ void	exec_builtin(t_minish *mini)
 		ft_env(mini);
 	if (ft_strcmp(mini->args[0], "export") == 0)
 		ft_export(mini);
+	if (ft_strcmp(mini->args[0], "unset") == 0)
+		ft_unset(mini);
+	if (ft_strcmp(mini->args[0], "exit") == 0)
+		ft_exit(mini);
 }

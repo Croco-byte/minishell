@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 21:52:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 16:29:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # define SUCCESS 1
 # define ERROR 0
 
-
+# define ENV_DISP 0
+# define EXPORT_DISP 1
 # define SEPARATORS " \t\r\n\a\v"
 
 # define EMPTY 0
@@ -44,7 +45,9 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <strings.h>
+# include <dirent.h>
 # include <errno.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
@@ -86,6 +89,7 @@ typedef struct s_token
 
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
+void	sig_int(int signal);
 
 /* DECLARATION OF EXEC FUNCTIONS */
 void	exec_cmd(t_minish *mini);
@@ -98,12 +102,18 @@ int		ft_cd(t_minish *mini);
 int		ft_echo(t_minish *mini);
 int		ft_env(t_minish *mini);
 int		ft_export(t_minish *mini);
+int		ft_unset(t_minish *mini);
+void	ft_exit(t_minish *mini);
 
 /* DECLARATION OF ENV FUNCTIONS */
 void	parse_env(t_minish *mini, char **env);
 char	**update_env(char **env, t_env *parsed_env);
 int		get_key_len(char *var);
 char	*get_value(char *var, int pos);
+int		is_in_env(t_minish *mini, char *var);
+t_env	*copy_parsed_env(t_env *parsed_env);
+void	sort_parsed_env(t_env *parsed_env);
+void	display_parsed_env(t_env *parsed_env, int which);
 
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
@@ -112,16 +122,21 @@ char	**parse_line(char *line);
 int		is_builtin(char *prog_name);
 int		args_number(char **args);
 int		env_var_nb(t_env *parsed_env);
+void	clean_exit(t_minish *mini);
+void	ft_prompt(void);
+void	display_strarray(char **strarray);
+char	**copy_strarray(char **src);
+void	sort_strarray(char **to_sort);
+void	free_strarray(char **args);
+void	free_parsed_env(t_env *parsed_env);
 
 /* DECLARATION OF TYPES */
-
 int	_type(t_token *token, int type);
 int	_types(t_token *token, char *types);
 int	__pipe(t_token *token);
 int	__type(t_token *token, int type);
 
 /* DECLARATION OF PARSER */
-
 int	quotes(char *line, int index);
 int	sep(char *line, int i);
 int	i_sep(char *line, int i);
@@ -130,15 +145,6 @@ int	valid_arg(t_token *token);
 t_token	*prev_separator(t_token *token, int i);
 t_token	*next_separator(t_token *token, int i);
 t_token	*next_cmd(t_token *token, int i);
-
-
-void	ft_prompt(void);
-void	display_strarray(char **strarray);
-char	**copy_strarray(char **src);
-void	sort_strarray(char **to_sort);
-void	free_strarray(char **args);
-void	free_parsed_env(t_env *parsed_env);
-
 
 #endif
 

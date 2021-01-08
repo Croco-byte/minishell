@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:10:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 17:58:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 13:37:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	display_strarray(char **strarray)
 	int i;
 
 	i = 0;
+	if (!strarray)
+		return ;
 	while (strarray[i])
 	{
 		ft_putendl_fd(strarray[i], 1);

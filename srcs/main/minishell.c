@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 17:20:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 16:53:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	minish_loop(t_minish *mini)
 	status = 1;
 	while(status)
 	{
+		signal(SIGINT, &sig_int);
 		ft_prompt();
 		get_next_line(STDIN_FILENO, &line);
 		mini->args = parse_line(line);
@@ -27,18 +28,6 @@ void	minish_loop(t_minish *mini)
 
 		free(line);
 		free_strarray(mini->args);
-	}
-}
-
-void	display_parsed_env(t_minish *mini)
-{
-	int	i;
-	
-	i = 0;
-	while (mini->parsed_env[i].key)
-	{
-		ft_printf("|%s| = |%s|\n", mini->parsed_env[i].key, mini->parsed_env[i].value);
-		i++;
 	}
 }
 

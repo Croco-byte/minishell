@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:17:59 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 17:55:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 15:24:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**update_env(char **env, t_env *parsed_env)
 
 	i = 0;
 	var_nb = env_var_nb(parsed_env);
-	free(env);
+	free_strarray(env);
 	result = malloc((var_nb + 1) * sizeof(char *));
 	while (i < var_nb)
 	{

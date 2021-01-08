@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 18:05:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/08 12:11:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,33 @@
 
 void	display_sorted(t_minish *mini)
 {
-	char	**copy;
+	t_env	*copy;
 
-	copy = copy_strarray(mini->env);
-	sort_strarray(copy);
-	display_strarray(copy);
-	free_strarray(copy);
-}
-
-int		is_in_env(t_minish *mini, char *var)
-{
-	int	i;
-	int	var_key_len;
-	int	env_key_len;
-
-	i = 1;
-	var_key_len = 0;
-	while (var[var_key_len] && var[var_key_len] != '=')
-		var_key_len++;
-	while (i < args_number(mini->env))
-	{
-		env_key_len = 0;
-		while (mini->env[i][env_key_len] && mini->env[i][env_key_len] != '=')
-			env_key_len++;
-		if (var_key_len == env_key_len && ft_strncmp(mini->env[i], var, var_key_len) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
+	copy = copy_parsed_env(mini->parsed_env);
+	sort_parsed_env(copy);
+	display_parsed_env(copy, EXPORT_DISP);
+	free_parsed_env(copy);
 }
 
 int		is_env_var(char *var)
 {
 	int	i;
+	char	*key;
+	char	*value;
 
+	key = ft_substr(var, 0, get_key_len(var));
+	value = get_value(var, get_key_len(var));
 	i = 0;
-	if (ft_isdigit(var[0]))
+	if (ft_isdigit(key[0]))
 		return (0);
-	while (var[i])
+	while (key[i])
 	{
-		if (!ft_isalnum(var[i]) && var[i] != '_' && var[i] != '=')
+		if (!ft_isalnum(key[i]) && key[i] != '_')
 			return (0);
 		i++;
 	}
+	free(key);
+	free(value);
 	return (1);
 }
 
@@ -102,7 +86,6 @@ void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 int	ft_export(t_minish *mini)
 {
 	int	i;
-
 
 	i = 1;
 	if (args_number(mini->args) <= 1)
