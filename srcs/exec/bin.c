@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 16:43:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/09 13:09:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,24 @@ void	add_path(t_minish *mini)
 
 void	exec_bin(t_minish *mini)
 {
-	int pid;
-	int wpid;
 	int status;
 
 	if (mini->args[0][0] != '/' && mini->args[0][0] != '.')
 		add_path(mini);
-	pid = fork();
-	if (pid == 0)
+	sig.pid = fork();
+	if (sig.pid == 0)
 	{
 		if (execve(mini->args[0], mini->args, mini->env) == -1)
 		{
 			ft_printf("%s : ", mini->args[0]);
 			ft_putendl_fd(strerror(errno), 1);
 		}
-		clean_exit(mini);
+		exit(ERROR);
 	}
-	else if (pid < 0)
+	else if (sig.pid < 0)
 		ft_putendl_fd("Error forking", 1);
 	else
 	{
-		wpid = waitpid(pid, &status, WUNTRACED);
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-		{
-			wpid = waitpid(pid, &status, WUNTRACED);
-		}
+		waitpid(sig.pid, &status, 0);
 	}
 }

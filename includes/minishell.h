@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 16:29:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/10 14:29:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,16 @@
 # include <dirent.h>
 # include <errno.h>
 # include <signal.h>
+# include <termios.h>
 # include <sys/wait.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
 # include "libft.h"
+
+typedef struct s_sig
+{
+	int		pid;
+}			t_sig;
 
 typedef struct s_env
 {
@@ -90,6 +96,7 @@ typedef struct s_token
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
 void	sig_int(int signal);
+void	sig_quit(int signal);
 
 /* DECLARATION OF EXEC FUNCTIONS */
 void	exec_cmd(t_minish *mini);
@@ -145,6 +152,8 @@ int	valid_arg(t_token *token);
 t_token	*prev_separator(t_token *token, int i);
 t_token	*next_separator(t_token *token, int i);
 t_token	*next_cmd(t_token *token, int i);
+
+extern t_sig sig;
 
 #endif
 

@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/05 15:18:35 by user42            #+#    #+#              #
-#    Updated: 2021/01/08 16:29:32 by user42           ###   ########.fr        #
+#    Updated: 2021/01/10 14:29:16 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRCS =	$(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
 		$(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
 		$(addsuffix .c, $(addprefix srcs/exec/, $(EXEC))) \
 		$(addsuffix .c, $(addprefix srcs/utils/, $(UTILS))) \
-		$(addsuffix .c, $(addprefix srcs/env/, $(ENV)))
+		$(addsuffix .c, $(addprefix srcs/env/, $(ENV))) \
+		$(addsuffix .c, $(addprefix srcs/bonus/, $(BONUS)))
 
 OBJS = ${SRCS:.c=.o}
 
