@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 17:21:49 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 11:42:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 12:54:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Affiche simplement le present working directory */
 
 int		ft_pwd(t_minish *mini)
 {

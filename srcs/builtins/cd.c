@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 15:50:05 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 11:41:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 12:50:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* La fonction CD qui prend une commande commençant par "cd", suivie par un seul argument, et change le working directory */
 
 int	ft_cd(t_minish *mini)
 {

@@ -6,11 +6,21 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:24:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/10 12:22:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:19:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Il s'agit ici des fonctions de gestion des signaux. Pour résumer, lorsque minishell intercepte un signal SIGINT (CTRL + C) :
+ > S'il n'y a pas de programme en train de tourner, on revient à la ligne et on affiche le prompt.
+ > Si un programme tourne, on revient juste à la ligne.
+
+ Lorsque minishell intercepte un signal SIGQUIT (CTRL + \) :
+ > S'il n'y a pas de programme en train de tourner, on affiche rien (\b\b  \b\b pour camoufler le ^\).
+ > Si un programme tourne, on affiche "Quit (core dumped)" comme dans bash.
+
+ Explications plus détaillées ci-dessous. */
 
 /* Each iteration of the main loop, we are resetting sig.pid to 0. If sig.pid is still 0 when the SIGINT SIGNAL is caught, it means we are still on the process of our shell
  (no child process is running). We then hide the ^C, jump line, and display the prompt again. If there was a beginning of command in the prompt before SIGINT, it

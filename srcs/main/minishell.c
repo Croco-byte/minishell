@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/10 14:29:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:16:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 t_sig sig;
 
+/* Ici, il s'agit de la boucle principale de minishell, boucle infinie. A chaque tour de boucle :
+ > On affiche le prompt "minishell >"
+ > On lit la commande entrée par l'utilisateur grâce à Get_Next_Line, en la stockant char *line, puis en la parsant pour la stocker dans mini->args.
+ > On gère le cas particulier d'un signal EOF reçu alors que la ligne est vide : dans ce cas, on quitte proprement, comme dans bash.
+ > On exécute la commande parsée.
+ >  */
+
 void	minish_loop(t_minish *mini)
 {
 	char *line;
 	int status;
 	int	empty_EOF;
 
-	status = 1;
-	while(status)
+	while(1)
 	{
 		sig.pid = 0;
 		line = 0;

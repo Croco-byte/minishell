@@ -6,11 +6,14 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 12:08:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 12:56:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 12:56:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Unset : quand on reçoit une commande commençant par "unset", on vérifie que l'argument passé correspond bien à une variable d'environnement (si non, pas d'erreur,
+mais on ne fait rien). Si l'argument passé correspond à une variable d'environnement, on supprime cette dernière. */
 
 void	del_env_var(t_minish *mini, int pos)
 {

@@ -6,11 +6,19 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/09 13:09:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:11:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* L'ensemble de ces fonctions est utilisé pour exécuter un binaire, passé en première position d'une commande. Si ce binaire commence par '/' ou '.', on ne le cherche
+pas dans la variable d'environnement PATH, car l'utilisateur a donné un chemin absolu. Sinon, on cherche dans tous les dossiers présents dans la variable PATH, voir
+si on trouve notre binaire. Si oui, on ajoute le PATH.
+
+Une fois que c'est fait, on appelle la fonction fork(), qui spawn un nouveau process. Cette fonction renvoie un nombre positif quelconque au processus parent (minishell),
+et 0 au processus enfant (le programme exécuté). Le processus enfant exécute la commande qui lui est passée par execve. Le processus parent attend que le processus
+enfant ait fini d'exécuter la commande pour faire quoi que ce soit (waitpid).*/
 
 int		bin_in_dir(char *bin, DIR *dir)
 {

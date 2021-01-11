@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:35:25 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 15:41:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:11:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Fonction qui redirige vers le bon builtin lorsqu'on a reçu une commande */
 
 void	exec_builtin(t_minish *mini)
 {

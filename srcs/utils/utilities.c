@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:10:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 13:37:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:20:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Fonction utilitaires pour le débuggage et le prompt */
 
 void	display_strarray(char **strarray)
 {

@@ -6,11 +6,14 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 13:39:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:06:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Ces fonctions servent à la manipulation de l'environnement dans sa version parsée (vérifier qu'une variable passée à une commande est bien dans l'environnement,
+trier l'environnement pour l'afficher par ordre alphabétique, afficher l'environnement.) */
 
 int		is_in_env(t_minish *mini, char *var)
 {

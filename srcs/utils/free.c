@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 15:43:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:20:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Fonctions utilitaires pour free nos variables avant de quitter */
 
 void	clean_exit(t_minish *mini)
 {

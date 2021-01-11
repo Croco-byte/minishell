@@ -6,11 +6,16 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/08 12:11:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 12:54:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Ces fonctions sont relatives au builtin "export". S'il n'y a aucun argument, ce builtin affiche les variables d'environnement triées par ordre alphabétique.
+S'il y a un ou plusieurs arguments, on vérifie s'ils sont des variables d'environnement valides. Pour chacun de ces arguments valides :
+ > S'il existe déjà dans l'environnement, on remplace la variable dans l'environnement.
+ > S'il n'existe pas dans l'environnement, on l'ajoute. */
 
 void	display_sorted(t_minish *mini)
 {
