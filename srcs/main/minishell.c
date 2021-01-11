@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 13:16:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/11 13:24:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_sig sig;
 void	minish_loop(t_minish *mini)
 {
 	char *line;
-	int status;
 	int	empty_EOF;
 
 	while(1)
