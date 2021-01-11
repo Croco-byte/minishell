@@ -23,6 +23,45 @@ char	*get_env_value(char *arg, t_env *env)
 	return (env_value);
 }
 
+int	env_value_size(const char *env)
+{
+	int	i;
+	int	size;
+	int	j;	
+
+	size = 0;
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	j = i + 1;
+	while (env[j])
+	{
+		j++;
+		size++;
+	}
+	return (size);
+}
+
+char	*env_value(char *env)
+{
+	int	i;
+	int	j;
+	int	value;
+	char	*env_value;
+
+	if (!(env_value = malloc(sizeof(char) * (env_value_size(env) + 1))))
+		return (NULL);
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	i++;
+	j = 0;
+	while (env[i])
+		env_value[j++] = env[i++];
+	env_value[j] = '\0';
+	return (env_value);
+}	
+
 char	*get_env_name(char ùdest, const char *src)
 {
 	int	i;

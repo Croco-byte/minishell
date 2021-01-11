@@ -95,6 +95,12 @@ typedef struct s_token
 	struct	s_token	*next;
 }		t_token;
 
+typedef	struct s_build
+{
+	char	*n_arg;
+	int	i;
+	int	;
+}		t_build;
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
 void	sig_int(int signal);
