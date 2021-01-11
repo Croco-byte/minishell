@@ -52,3 +52,13 @@ void	free_parsed_env(t_env *parsed_env)
 	}
 	free(parsed_env);
 }
+
+void	*ft_memdel(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+	return (NULL);
+}

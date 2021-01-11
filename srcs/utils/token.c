@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_token	*next_separotor(t_token *token, int i)
+t_token	*next_separator(t_token *token, int i)
 {
 	if (token && i)
 		token = token->next;
