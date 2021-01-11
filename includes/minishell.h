@@ -37,7 +37,7 @@
 # define NOSKIP 0
 
 # define BUFF_SIZE 2048
-# define BUILDUP -28
+# define BIULDUP -28
 # define CD_NOTDIR	("Error Opening directory.")
 # define CD_NOPEM	("Permission denied.")
 # define UNKNOWN_COMMAND	("command not found: ")
