@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 13:20:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 17:40:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	clean_exit(t_minish *mini)
 	ft_putendl_fd("Bye ! 👋", 1);
 	free_strarray(mini->env);
 	free_parsed_env(mini->parsed_env);
-	exit(0);
+	ft_printf("[DEBUG] Exiting with code : %i\n", status.code);
+	exit(status.code);
 }
 
 void	free_strarray(char **args)

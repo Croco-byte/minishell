@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 12:54:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 15:21:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,23 @@ void	add_env_var(t_minish *mini, char *var)
 void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 {
 	int	i;
+	char	*new_key;
+	char	*new_value;
 
+	new_key = ft_substr(var, 0, get_key_len(var));
+	new_value = get_value(var, get_key_len(var));
 	i = 0;
 	while (i < pos)
 		i++;
 	free(parsed_env[i].key);
-	free(parsed_env[i].value);
-	parsed_env[i].key = ft_substr(var, 0, get_key_len(var));
-	parsed_env[i].value = get_value(var, get_key_len(var));
+	parsed_env[i].key = new_key;
+	if (new_value[0] != '\0')
+	{
+		free(parsed_env[i].value);
+		parsed_env[i].value = new_value;
+	}
+	else
+		free(new_value);
 	mini->env = update_env(mini->env, mini->parsed_env);
 }
 

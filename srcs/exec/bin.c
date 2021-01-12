@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 13:11:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 17:48:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,54 @@ void	add_path(t_minish *mini)
 	free_strarray(path);
 }
 
-void	exec_bin(t_minish *mini)
+int	handle_errors(t_minish *mini, char *path)
 {
-	int status;
+	DIR	*folder;
+	int	fd;
+	int	ret;
 
+	fd = open(path, O_WRONLY);
+	folder = opendir(path);
+	ret = is_in_env(mini, "PATH");
+	ft_putstr_fd("minishell: ", STDERR);
+	ft_putstr_fd(path, STDERR);
+	if (ft_strchr(path, '/') == 0 && ret != -1 && mini->parsed_env[ret].value[0] != '\0')
+		ft_putendl_fd(": command not found", STDERR);											// --> On a pas trouvé la commande dans les builtins, ni dans la variable d'environnement PATH, qui existe et n'est pas vide.
+	else if (fd == -1 && folder == 0)
+		ft_putendl_fd(": no such file or directory", STDERR);
+	else if (fd == -1 && folder != 0)
+		ft_putendl_fd(": is a directory", STDERR);
+	else if (fd != -1 && folder == 0)
+		ft_putendl_fd(": permission denied", STDERR);
+	if ((ft_strchr(path, '/') == 0 && ret != -1 && mini->parsed_env[ret].value[0] != '\0') || (fd == -1 && folder == 0))
+		ret = 127;
+	else
+		ret = 126;
+	if (folder)
+		closedir(folder);
+	close(fd);
+	return (ret);
+}
+
+int	exec_bin(t_minish *mini)
+{
+	int ret;
+
+	ret = 0;
 	if (mini->args[0][0] != '/' && mini->args[0][0] != '.')
 		add_path(mini);
-	sig.pid = fork();
-	if (sig.pid == 0)
+	status.pid = fork();
+	if (status.pid == 0)
 	{
 		if (execve(mini->args[0], mini->args, mini->env) == -1)
-		{
-			ft_printf("%s : ", mini->args[0]);
-			ft_putendl_fd(strerror(errno), 1);
-		}
-		exit(ERROR);
+			ret = handle_errors(mini, mini->args[0]);
+		exit(ret);
 	}
-	else if (sig.pid < 0)
+	else if (status.pid < 0)
 		ft_putendl_fd("Error forking", 1);
 	else
-	{
-		waitpid(sig.pid, &status, 0);
-	}
+		waitpid(status.pid, &ret, 0);
+	if (!WIFSIGNALED(ret))
+		status.code = WEXITSTATUS(ret);
+	return (status.code);
 }

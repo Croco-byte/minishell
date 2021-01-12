@@ -6,15 +6,15 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/10 14:29:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 17:38:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define SUCCESS 1
-# define ERROR 0
+# define SUCCESS 0
+# define ERROR 1
 
 # define ENV_DISP 0
 # define EXPORT_DISP 1
@@ -56,10 +56,11 @@
 # include "get_next_line.h"
 # include "libft.h"
 
-typedef struct s_sig
+typedef struct s_status
 {
 	int		pid;
-}			t_sig;
+	int		code;
+}			t_status;
 
 typedef struct s_env
 {
@@ -99,8 +100,9 @@ typedef	struct s_build
 {
 	char	*n_arg;
 	int	i;
-	int	;
+	//int	;
 }		t_build;
+
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
 void	sig_int(int signal);
@@ -108,8 +110,8 @@ void	sig_quit(int signal);
 
 /* DECLARATION OF EXEC FUNCTIONS */
 void	exec_cmd(t_minish *mini);
-void	exec_builtin(t_minish *mini);
-void	exec_bin(t_minish *mini);
+int		exec_builtin(t_minish *mini);
+int		exec_bin(t_minish *mini);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(t_minish *mini);
@@ -161,7 +163,7 @@ t_token	*prev_separator(t_token *token, int i);
 t_token	*next_separator(t_token *token, int i);
 t_token	*next_cmd(t_token *token, int i);
 
-extern t_sig sig;
+extern t_status status;
 
 #endif
 

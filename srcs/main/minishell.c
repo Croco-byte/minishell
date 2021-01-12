@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 13:24:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 17:43:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_sig sig;
+t_status status;
 
 /* Ici, il s'agit de la boucle principale de minishell, boucle infinie. A chaque tour de boucle :
  > On affiche le prompt "minishell >"
@@ -28,7 +28,8 @@ void	minish_loop(t_minish *mini)
 
 	while(1)
 	{
-		sig.pid = 0;
+		status.pid = 0;
+		
 		line = 0;
 		mini->args = 0;
 		ft_prompt();
@@ -43,6 +44,7 @@ void	minish_loop(t_minish *mini)
 		mini->args = parse_line(line);
 		if (line)
 			exec_cmd(mini);
+		ft_printf("[DEBUG] Return code of command is %d\n", status.code);
 		free(line);
 		free_strarray(mini->args);
 	}
@@ -54,8 +56,10 @@ int	main(int argc, char *argv[], char *env[])
 
 	(void)argc;
 	(void)argv;
+	status.code = 0;
 	mini.args = 0;
 	mini.env = 0;
+	mini.ret = 0;
 	parse_env(&mini, env);
 	mini.env = update_env(mini.env, mini.parsed_env);
 	signal(SIGINT, &sig_int);

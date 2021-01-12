@@ -62,7 +62,7 @@ char	*env_value(char *env)
 	return (env_value);
 }	
 
-char	*get_env_name(char ùdest, const char *src)
+char	*get_env_name(char *dest, const char *src)
 {
 	int	i;
 
