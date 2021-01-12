@@ -132,6 +132,15 @@ t_env	*copy_parsed_env(t_env *parsed_env);
 void	sort_parsed_env(t_env *parsed_env);
 void	display_parsed_env(t_env *parsed_env, int which);
 
+/* AJOUT D'AUTRES ENV FONCTIONS POUR LA GESTION ? */
+
+int	env_value_size(const char *env);
+int	is_env_valid(const char *env);
+char	*get_env_value(char *arg, t_env *env);
+char	*env_value(char *env);
+char	*get_env_name(char *dest, char *src);
+
+
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
 
@@ -162,6 +171,18 @@ int	valid_arg(t_token *token);
 t_token	*prev_separator(t_token *token, int i);
 t_token	*next_separator(t_token *token, int i);
 t_token	*next_cmd(t_token *token, int i);
+
+/* DECLARATION OF BUILDUPS */
+
+int	varcopy(char *arg, const char *value_env, int pos);
+int	retsize(int ret);
+int	getvar_len(const char *arg, int pos, t_env *env, int ret);
+int	get_var_len(const char *arg, int pos, t_env *env, int ret);
+int	arg_alloc_size(const char *arg, t_env *env, int ret);
+
+void	insert_var(t_build *build, char *arg, t_env *env, int ret);
+char	*builds(char *arg, t_env *env, int ret);
+char	*get_var_value(const char *arg, int pos, t_env *env, int ret);
 
 extern t_status status;
 

@@ -60,7 +60,7 @@ char	*get_var_value(const char *arg, int pos, t_env *env, int ret)
 	return (var_val);
 }
 
-int	get_var_len(const char *arh, int pos, t_env *env, int ret)
+int	get_var_len(const char *arg, int pos, t_env *env, int ret)
 {
 	char	var_n[BUFF_SIZE];
 	char	*var_val;
