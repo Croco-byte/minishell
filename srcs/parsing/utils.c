@@ -7,9 +7,9 @@ void	args_type(t_token *token, int separator)
 	if (!separator)
 	{
 		if (ft_strcmp(token->str, ">") == 0)
-			token->type = INFILE;
-		else if (ft_strcmp(token->str, "<") == 0)
 			token->type = OUTFILE;
+		else if (ft_strcmp(token->str, "<") == 0)
+			token->type = INFILE;
 		else if (ft_strcmp(token->str, ">>") == 0)
 			token->type = APPEND;
 		else if (ft_strcmp(token->str, "|") == 0)
@@ -17,7 +17,7 @@ void	args_type(t_token *token, int separator)
 		else if (ft_strcmp(token->str, ";") == 0)
 			token->type = END;
 	}
-	if (token->prev == NULL || token->prev->type != INFILE)
+	if (token->prev == NULL || token->prev->type >= OUTFILE)
 		token->type = CMD;
 	else
 		token->type = ARG;

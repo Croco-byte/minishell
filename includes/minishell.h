@@ -74,6 +74,7 @@ typedef struct s_minish
 	char	**args;
 	char	**env;
 	t_env	*parsed_env;
+	t_token	*start;
 
 	int	fdin;
 	int	fdout;
@@ -132,6 +133,15 @@ t_env	*copy_parsed_env(t_env *parsed_env);
 void	sort_parsed_env(t_env *parsed_env);
 void	display_parsed_env(t_env *parsed_env, int which);
 
+/* AJOUT D'AUTRES ENV FONCTIONS POUR LA GESTION ? */
+
+int	env_value_size(const char *env);
+int	is_env_valid(const char *env);
+char	*get_env_value(char *arg, t_env *env);
+char	*env_value(char *env);
+char	*get_env_name(char *dest, char *src);
+
+
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line(char *line);
 
@@ -152,7 +162,8 @@ int	_type(t_token *token, int type);
 int	_types(t_token *token, char *types);
 int	__pipe(t_token *token);
 int	__type(t_token *token, int type);
-
+void	args_type(t_token *token, int sep);
+void	arg_type(t_token *token, int sep);
 /* DECLARATION OF PARSER */
 int	quotes(char *line, int index);
 int	sep(char *line, int i);
@@ -163,8 +174,39 @@ t_token	*prev_separator(t_token *token, int i);
 t_token	*next_separator(t_token *token, int i);
 t_token	*next_cmd(t_token *token, int i);
 
-extern t_status status;
+/* DECLARATION OF BUILDUPS */
 
+int	varcopy(char *arg, const char *value_env, int pos);
+int	retsize(int ret);
+int	getvar_len(const char *arg, int pos, t_env *env, int ret);
+int	get_var_len(const char *arg, int pos, t_env *env, int ret);
+int	arg_alloc_size(const char *arg, t_env *env, int ret);
+
+void	insert_var(t_build *build, char *arg, t_env *env, int ret);
+char	*builds(char *arg, t_env *env, int ret);
+char	*get_var_value(const char *arg, int pos, t_env *env, int ret);
+
+/* DECLARATION OF TOKENS */
+
+int	next_alloc(char *line, int *i);
+t_token	*next_token(char *line, int *i);
+t_token	*get_tokens(char *line);
+void	_args(t_minish *mini);
+
+
+/* DECLARATION OF PARSE LINE */
+
+char	*alloc_space(char *line);
+char	*space_line(char *line);
+int	check_quotes(t_minish *mini, char **line);
+void	parse_line(t_minish *mini);
+
+/* DECLARATION utils functions */
+
+void	ft_skip_space(const char *str, int *i);
+
+extern t_status status;
+extern t_sig g_sig;
 #endif
 
 
