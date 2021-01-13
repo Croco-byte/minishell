@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:43:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 16:31:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	minish_loop(t_minish *mini)
 			ft_putstr_fd("exit\n", 1);
 			clean_exit(mini);
 		}
-		mini->args = parse_line(line);
+		mini->args = parse_line_temp(line);
 		if (line)
 			exec_cmd(mini);
 		ft_printf("[DEBUG] Return code of command is %d\n", status.code);

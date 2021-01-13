@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:38:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 16:32:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
+typedef struct s_token
+{
+	char	*str;
+	int	type;
+	struct	s_token	*prev;
+	struct	s_token	*next;
+}		t_token;
 
 typedef struct s_minish
 {
@@ -88,14 +95,6 @@ typedef struct s_minish
 	int	exit;
 
 }			t_minish;
-
-typedef struct s_token
-{
-	char	*str;
-	int	type;
-	struct	s_token	*prev;
-	struct	s_token	*next;
-}		t_token;
 
 typedef	struct s_build
 {
@@ -143,7 +142,7 @@ char	*get_env_name(char *dest, char *src);
 
 
 /* DECLARATION OF PARSING FUNCTIONS */
-char	**parse_line(char *line);
+char	**parse_line_temp(char *line);
 
 /* DECLARATION OF UTILITIES FUNCTIONS */
 int		is_builtin(char *prog_name);
@@ -206,7 +205,6 @@ void	parse_line(t_minish *mini);
 void	ft_skip_space(const char *str, int *i);
 
 extern t_status status;
-extern t_sig g_sig;
 #endif
 
 
