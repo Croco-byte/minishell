@@ -74,6 +74,7 @@ typedef struct s_minish
 	char	**args;
 	char	**env;
 	t_env	*parsed_env;
+	t_token	*start;
 
 	int	fdin;
 	int	fdout;
@@ -185,7 +186,7 @@ char	*builds(char *arg, t_env *env, int ret);
 char	*get_var_value(const char *arg, int pos, t_env *env, int ret);
 
 extern t_status status;
-
+extern t_sig g_sig;
 #endif
 
 
