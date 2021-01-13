@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:48:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 11:40:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,10 @@ int	handle_errors(t_minish *mini, char *path)
 		ft_putendl_fd(": permission denied", STDERR);
 	if ((ft_strchr(path, '/') == 0 && ret != -1 && mini->parsed_env[ret].value[0] != '\0') || (fd == -1 && folder == 0))
 		ret = 127;
-	else
+	else if ((fd == -1 && folder != 0) || (fd != -1 && folder == 0))
 		ret = 126;
+	else
+		ret = 1;
 	if (folder)
 		closedir(folder);
 	close(fd);
@@ -124,6 +126,6 @@ int	exec_bin(t_minish *mini)
 	else
 		waitpid(status.pid, &ret, 0);
 	if (!WIFSIGNALED(ret))
-		status.code = WEXITSTATUS(ret);
-	return (status.code);
+		ret = WEXITSTATUS(ret);
+	return (ret);
 }
