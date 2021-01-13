@@ -3,24 +3,24 @@
 char	*get_env_value(char *arg, t_env *env)
 {
 	char	env_n[BUFF_SIZE];
-	char	*env_value;
+	char	*env_val;
 	int i;
 
 	i = 0;
 
-	env_value = ft_strdup("");
-	while (env[i] && env[i].value)
+	env_val = ft_strdup("");
+	while (env && env[i].value)
 	{
 		get_env_name(env_n, env[i].value);
-		if (ft_strcmp(agr, env_n) == 0)
+		if (ft_strcmp(arg, env_n) == 0)
 		{
-			ft_memdel(env_value);
-			env_value = env_value(env[i].value);
-			return (env_value);
+			ft_memdel(env_val);
+			env_val = env_value(env[i].value);
+			return (env_val);
 		}
 		i++;
 	}
-	return (env_value);
+	return (env_val);
 }
 
 int	env_value_size(const char *env)
@@ -46,7 +46,6 @@ char	*env_value(char *env)
 {
 	int	i;
 	int	j;
-	int	value;
 	char	*env_value;
 
 	if (!(env_value = malloc(sizeof(char) * (env_value_size(env) + 1))))
@@ -67,7 +66,7 @@ char	*get_env_name(char *dest, const char *src)
 	int	i;
 
 	i = 0;
-	while (src[i] && src[i] != '=' ft_strlen(src) < BUFF_SIZE)
+	while (src[i] && src[i] != '=' && ft_strlen(src) < BUFF_SIZE)
 	{
 		dest[i] = src[i];
 		i++;

@@ -15,7 +15,7 @@ void	insert_var(t_build *build, char *arg, t_env *env, int ret)
 	char	*env_value;
 
 	env_value = get_var_value(arg, build->j, env, ret);
-	build->i += env_value ? varcopy(build->str, env_value, build->i) : 0;
+	build->i += env_value ? varcopy(build->n_arg, env_value, build->i) : 0;
 	ft_memdel(env_value);
 	arg[build->j] == '?' ? build->j++ : 0;
 	if (ft_isdigit(arg[build->j]) == 0 && arg[build->j - 1] != '?')
@@ -34,7 +34,8 @@ char	*builds(char *arg, t_env *env, int ret)
 {
 	t_build	*build;
 	int	n_arg_len;
-
+	
+	build = NULL;
 	n_arg_len = arg_alloc_size(arg, env, ret);
 	if (!(build->n_arg = malloc(sizeof(char) * n_arg_len + 1)))
 		return (NULL);

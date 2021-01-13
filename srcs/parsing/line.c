@@ -28,7 +28,7 @@ char *space_line(char *line)
 	while (space && line[++i])
 	{
 		if (quotes(line, i) != 2 && line[i] == '$' && i && line[i - 1] !='\\')
-			space[j++] = char(-line[i]);
+			space[j++] = (char)(-line[i]);
 		else if (quotes(line, i) == 0 && sep(line, i))
 		{
 			space[j++] = ' ';
@@ -69,8 +69,8 @@ void	parse_line(t_minish *mini)
 	ft_putstr_fd("minishell> ", STDERR);
 	if (get_next_line(0, &line) == -2 && (mini->exit = 1))
 		ft_putendl_fd("exit", STDERR);
-	mini->ret = (g_sig.sigint == 1) ? g_sig.exit_status : miniÃ->ret;
-	if (quote_check(mini, &line))
+	mini->ret = (status.code == 1) ? 1 : mini->ret;
+	if (check_quotes(mini, &line))
 		return;
 	line = space_line(line);
 	if (line && line[0] == '$')

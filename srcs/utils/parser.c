@@ -53,15 +53,15 @@ int	checkline(t_token *token)
 		if (_types(token, "IAO") && _types(token->next, "POAIE"))
 		{
 			ft_putstr_fd("minishell : parse error near unexpected token `", STDERR);
-			token->next ? ft_pustr_fd(token->next->str, STDERR) : 0;
-			ft_putendl("'", STDERR);
+			token->next ? ft_putstr_fd(token->next->str, STDERR) : 0;
+			ft_putendl_fd("'", STDERR);
 			return(0);
 		}
 		if (_types(token, "PE") && (_types(token->prev, "POAIE")))
 		{
 			ft_putstr_fd("minishell : parse error near unexpected token `", STDERR);
-			token->next ? ft_pustr_fd(token->next->str, STDERR) : 0;
-			ft_putendl("'", STDERR);
+			token->next ? ft_putstr_fd(token->next->str, STDERR) : 0;
+			ft_putendl_fd("'", STDERR);
 			return(0);
 		}
 		token = token->next;

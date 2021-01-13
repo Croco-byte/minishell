@@ -23,9 +23,9 @@ HEADER = minishell.h
 MAIN = minishell signal
 BUILTINS = pwd cd echo env export unset exit
 EXEC = bin builtin exec
-PARSING = parse utils
-UTILS = utilities free
-ENV = init utilities
+PARSING = parse utils skip_space line buildups
+UTILS = utilities free tokens token parser buildup type
+ENV = init utilities get_env
 
 SRCS =	$(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
 		$(addsuffix .c, $(addprefix srcs/builtins/, $(BUILTINS))) \

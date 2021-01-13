@@ -16,7 +16,7 @@ t_token	*next_cmd(t_token *token, int i)
 	while (token && token->type != CMD)
 	{
 		token = token->next;
-		if (token->type == CMD !token->prev)
+		if (token->type == CMD && !token->prev) //token->prev == NULL
 			;
 		else if (token->type == CMD && token->prev->type < END)
 			token = token->next;

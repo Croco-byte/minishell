@@ -100,7 +100,7 @@ typedef	struct s_build
 {
 	char	*n_arg;
 	int	i;
-	//int	;
+	int	j;
 }		t_build;
 
 /* DECLARATION OF MAIN FUNCTIONS */
@@ -134,11 +134,12 @@ void	display_parsed_env(t_env *parsed_env, int which);
 
 /* AJOUT D'AUTRES ENV FONCTIONS POUR LA GESTION ? */
 
+int	is_env_char(int c);
 int	env_value_size(const char *env);
 int	is_env_valid(const char *env);
 char	*get_env_value(char *arg, t_env *env);
 char	*env_value(char *env);
-char	*get_env_name(char *dest, char *src);
+char	*get_env_name(char *dest, const char *src);
 
 
 /* DECLARATION OF PARSING FUNCTIONS */
@@ -203,7 +204,7 @@ void	parse_line(t_minish *mini);
 /* DECLARATION utils functions */
 
 void	ft_skip_space(const char *str, int *i);
-
+void	*ft_memdel(void *ptr);
 extern t_status status;
 #endif
 

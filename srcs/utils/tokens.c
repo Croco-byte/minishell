@@ -15,7 +15,7 @@ void	arg_type(t_token *token, int sep)
 	else if (ft_strcmp(token->str, ";") == 0 && sep == 0)
 		token->type = END;
 	else if(token->prev == NULL || token->prev->type >= OUTFILE)
-		toekn->type = CMD;
+		token->type = CMD;
 	else
 		token->type = ARG;
 }
