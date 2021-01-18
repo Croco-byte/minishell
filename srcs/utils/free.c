@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:40:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/14 16:05:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	clean_exit(t_minish *mini)
 	ft_putendl_fd("Bye ! 👋", 1);
 	free_strarray(mini->env);
 	free_parsed_env(mini->parsed_env);
+	free_token(mini->start);
 	ft_printf("[DEBUG] Exiting with code : %i\n", status.code);
 	exit(status.code);
 }
@@ -62,4 +63,19 @@ void	*ft_memdel(void *ptr)
 		ptr = NULL;
 	}
 	return (NULL);
+}
+
+void	free_token(t_token *start)
+{
+	while (start && start->next)
+	{
+		ft_memdel(start->str);
+		start = start->next;
+		ft_memdel(start->prev);
+	}
+	if (start)
+	{
+		ft_memdel(start->str);
+		ft_memdel(start);
+	}
 }

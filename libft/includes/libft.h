@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:19:04 by user42            #+#    #+#             */
-/*   Updated: 2021/01/07 17:09:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/14 14:44:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		*ft_strncpy(char *dest, const char *src, size_t n);
+void		ft_skip_space(const char *str, int *i);
 
 #endif

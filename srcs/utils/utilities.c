@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:10:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 13:20:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/17 15:12:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@ void	display_strarray(char **strarray)
 		return ;
 	while (strarray[i])
 	{
-		ft_putendl_fd(strarray[i], 1);
+		ft_putstr_fd("[", STDERR);
+		ft_putnbr_fd(i, STDERR);
+		ft_putstr_fd("] = ", STDERR);
+		ft_putstr_fd(strarray[i], STDERR);
+		ft_putstr_fd(" -- ", STDERR);
 		i++;
 	}
+	ft_putstr_fd("\n", STDERR);
 }
 
 char	**copy_strarray(char **src)
@@ -91,7 +96,10 @@ void	sort_strarray(char **to_sort)
 
 void	ft_prompt(void)
 {
-	ft_putstr_fd("\033[1;32m🐊 minishell ▸ \033[0m", 1);
+	if (status.code == 0)
+		ft_putstr_fd("\033[1;32m🐊 minishell ▸ \033[0m", 1);
+	else
+		ft_putstr_fd("\033[1;31m🐊 minishell ▸ \033[0m", 1);
 }
 
 int	is_builtin(char *prog_name)

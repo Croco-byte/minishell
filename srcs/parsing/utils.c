@@ -1,24 +1,13 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/14 14:45:18 by user42            #+#    #+#             */
+/*   Updated: 2021/01/14 14:45:28 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	args_type(t_token *token, int separator)
-{
-	if (ft_strcmp(token->str, "") == 0)
-		token->type = EMPTY;
-	if (!separator)
-	{
-		if (ft_strcmp(token->str, ">") == 0)
-			token->type = OUTFILE;
-		else if (ft_strcmp(token->str, "<") == 0)
-			token->type = INFILE;
-		else if (ft_strcmp(token->str, ">>") == 0)
-			token->type = APPEND;
-		else if (ft_strcmp(token->str, "|") == 0)
-			token->type = PIPE;
-		else if (ft_strcmp(token->str, ";") == 0)
-			token->type = END;
-	}
-	if (token->prev == NULL || token->prev->type >= OUTFILE)
-		token->type = CMD;
-	else
-		token->type = ARG;
-}
+#include "minishell.h"

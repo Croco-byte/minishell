@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 12:08:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 12:56:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 15:42:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ void	del_env_var(t_minish *mini, int pos)
 	mini->env = update_env(mini->env, mini->parsed_env);
 }
 
-int	ft_unset(t_minish *mini)
+int	ft_unset(t_minish *mini, char **cmd)
 {
 	int i;
 	int	pos;
 
 	i = 1;
-	if (args_number(mini->args) < 2)
+	if (args_number(cmd) < 2)
 	{
 		ft_putendl_fd("unset: not enough arguments", 1);
 		return (ERROR);
 	}
-	while (i < args_number(mini->args))
+	while (i < args_number(cmd))
 	{
-		pos = is_in_env(mini, mini->args[i]);
+		pos = is_in_env(mini, cmd[i]);
 		if (pos != -1)
 			del_env_var(mini, pos);
 		i++;

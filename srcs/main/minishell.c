@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 16:31:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/17 12:57:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,72 @@ t_status status;
  > On exécute la commande parsée.
  >  */
 
+void	redir_and_exec(t_minish *mini, t_token *token)
+{
+	t_token	*prev;
+	t_token	*next;
+	int		pipe;
+
+	prev = prev_sep(token, NOSKIP);
+	next = next_sep(token, NOSKIP);
+	pipe = 0;
+	if (is_tok_type(prev, TRUNC))
+		redir(mini, token, TRUNC);
+	else if (is_tok_type(prev, APPEND))
+		redir(mini, token, APPEND);
+	else if (is_tok_type(prev, INPUT))
+		input(mini, token);
+	else if (is_tok_type(prev, PIPE))
+		pipe = minipipe(mini);
+	if (next && is_tok_type(next, END) == 0 && pipe != 1)
+		redir_and_exec(mini, next->next);
+	if ((is_tok_type(prev, END) || is_tok_type(prev, PIPE) || !prev)
+		&& pipe != 1 && mini->no_exec == 0)
+		exec_cmd(mini, token);
+}
+
+void	minish(t_minish *mini)
+{
+	t_token *token;
+	int	exit_code;
+
+	token = next_run(mini->start, NOSKIP);
+	token = (is_types(mini->start, "TAI")) ? mini->start->next : token;
+	while (token)
+	{
+		mini->charge = 1;
+		mini->parent = 1;
+		mini->last = 1;
+		redir_and_exec(mini, token);
+		reset_std(mini);
+		close_fds(mini);
+		reset_fds(mini);
+		waitpid(-1, &exit_code, 0);
+		if (mini->last == 0)
+			status.code = WEXITSTATUS(exit_code);
+		if (mini->parent == 0)
+		{
+			free_token(mini->start);
+			exit(status.code);
+		}
+		ft_putstr_fd("[DEBUG] Last command returned ", STDERR);
+		ft_putnbr_fd(status.code, STDERR);
+		ft_putchar_fd('\n', STDERR);
+		mini->no_exec = 0;
+		token = next_run(token, SKIP);
+	}
+}
+
 void	minish_loop(t_minish *mini)
 {
-	char *line;
-	int	empty_EOF;
-
 	while(1)
 	{
 		status.pid = 0;
-		
-		line = 0;
-		mini->args = 0;
-		ft_prompt();
-		empty_EOF = get_next_line(STDIN_FILENO, &line);
-		if (empty_EOF == -2)									// --> i.e si on a rencontré un EOF et que la ligne était vide.
-		{
-			free(line);
-			free_strarray(mini->args);
-			ft_putstr_fd("exit\n", 1);
-			clean_exit(mini);
-		}
-		mini->args = parse_line_temp(line);
-		if (line)
-			exec_cmd(mini);
-		ft_printf("[DEBUG] Return code of command is %d\n", status.code);
-		free(line);
-		free_strarray(mini->args);
+		mini->start = 0;
+		parse(mini);
+		if (mini->start && check_line(mini->start))
+			minish(mini);
+		free_token(mini->start);
 	}
 }
 
@@ -57,15 +97,8 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argc;
 	(void)argv;
 	status.code = 0;
-	mini.args = 0;
-	mini.env = 0;
-	mini.ret = 0;
-	parse_env(&mini, env);
-	mini.env = update_env(mini.env, mini.parsed_env);
-	signal(SIGINT, &sig_int);
-	signal(SIGQUIT, &sig_quit);
+	mini_init(&mini, env);
+	sig_init();
 	minish_loop(&mini);
-	free_strarray(mini.env);
-	free_parsed_env(mini.parsed_env);
 	return (0);
 }

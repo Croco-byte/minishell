@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 15:21:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/18 13:05:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	display_sorted(t_minish *mini)
 
 	copy = copy_parsed_env(mini->parsed_env);
 	sort_parsed_env(copy);
-	display_parsed_env(copy, EXPORT_DISP);
+	display_parsed_env(copy, 1);
 	free_parsed_env(copy);
 }
 
@@ -36,12 +36,20 @@ int		is_env_var(char *var)
 	key = ft_substr(var, 0, get_key_len(var));
 	value = get_value(var, get_key_len(var));
 	i = 0;
-	if (ft_isdigit(key[0]))
+	if (!key[0] || ft_isdigit(key[0]))
+	{
+		free(key);
+		free(value);
 		return (0);
+	}
 	while (key[i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
+		{
+			free(key);
+			free(value);
 			return (0);
+		}
 		i++;
 	}
 	free(key);
@@ -97,25 +105,28 @@ void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 	mini->env = update_env(mini->env, mini->parsed_env);
 }
 
-int	ft_export(t_minish *mini)
+int	ft_export(t_minish *mini, char **cmd)
 {
 	int	i;
 
 	i = 1;
-	if (args_number(mini->args) <= 1)
+	if (args_number(cmd) <= 1)
 	{
 		display_sorted(mini);
 		return (SUCCESS);
 	}
-	while (i < args_number(mini->args))
+	while (i < args_number(cmd))
 	{
-		if (!is_env_var(mini->args[i]))
-			ft_printf("export: not valid in this context: %s\n", mini->args[i]);
+		if (!is_env_var(cmd[i]))
+		{
+			ft_putstr_fd("export: not valid in this context: ", STDERR);
+			ft_putendl_fd(cmd[i], STDERR);
+		}
 		else
-			if (is_in_env(mini, mini->args[i]) != -1)
-				repl_env_var(mini, mini->parsed_env, mini->args[i], is_in_env(mini, mini->args[i]));
+			if (is_in_env(mini, cmd[i]) != -1)
+				repl_env_var(mini, mini->parsed_env, cmd[i], is_in_env(mini, cmd[i]));
 			else
-				add_env_var(mini, mini->args[i]);
+				add_env_var(mini, cmd[i]);
 		i++;
 	}
 	return (SUCCESS);

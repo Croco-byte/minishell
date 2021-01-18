@@ -1,88 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/14 14:39:46 by user42            #+#    #+#             */
+/*   Updated: 2021/01/15 13:10:01 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*alloc_space(char *line)
+char	*space_alloc(char *line)
 {
-	char *space;
-	int	count;
-	int	i;
+	char	*new;
+	int		count;
+	int		i;
 
 	count = 0;
-	i = -1;
-	while (line[++i])
-		if (sep(line, i))
+	i = 0;
+	while (line[i])
+	{
+		if (is_sep(line, i))
 			count++;
-	if (!(space = malloc(sizeof(char) + (i + (2 * count) + 1))))
+		i++;
+	}
+	if (!(new = malloc(sizeof(char) * (i + 2 * count + 1))))
 		return (NULL);
-	return (space);
+	return (new);
 }
 
-char *space_line(char *line)
+char	*space_line(char *line)
 {
-	char	*space;
-	int	i;
-	int	j;
+	char	*new;
+	int		i;
+	int		j;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	space = alloc_space(line);
-	while (space && line[++i])
+	new = space_alloc(line);
+	while (new && line[i])
 	{
-		if (quotes(line, i) != 2 && line[i] == '$' && i && line[i - 1] !='\\')
-			space[j++] = (char)(-line[i]);
-		else if (quotes(line, i) == 0 && sep(line, i))
+		if (quotes(line, i) != 2 && line[i] == '$' && i && line[i - 1] != '\\')
+			new[j++] = (char)(-line[i++]);
+		else if (quotes(line, i) == 0 && is_sep(line, i))
 		{
-			space[j++] = ' ';
-			space[j++] = line[i];
+			new[j++] = ' ';
+			new[j++] = line[i++];
 			if (quotes(line, i) == 0 && line[i] == '>')
-				space[j++] = line[i];
-			space[j++] = ' ';
+				new[j++] = line[i++];
+			new[j++] = ' ';
 		}
 		else
-			space[j++] = line[i];
+			new[j++] = line[i++];
 	}
-	space[j] = '\0';
+	new[j] = '\0';
 	ft_memdel(line);
-	return (space);
+	return (new);
 }
 
-int	check_quotes(t_minish *mini, char **line)
+int		quote_check(t_minish *mini, char **line)
 {
 	if (quotes(*line, 2147483647))
 	{
 		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
 		ft_memdel(*line);
-		mini->ret = 2;
+		status.code = 2;
 		mini->start = NULL;
 		return (1);
 	}
 	return (0);
 }
 
-void	parse_line(t_minish *mini)
+void	display_chained_list(t_minish *mini)
+{
+	while (mini->start->next)
+	{
+		printf("%s -- ", mini->start->str);
+		mini->start = mini->start->next;
+	}
+	printf("%s -- ", mini->start->str);
+	printf("\n");
+	while (mini->start && mini->start->prev)
+		mini->start = mini->start->prev;
+}
+
+void	parse(t_minish *mini)
 {
 	char	*line;
 	t_token	*token;
 
-	signal(SIGINT, &sig_int);
-	signal(SIGQUIT, &sig_quit);
-	mini->ret ? ft_putstr_fd("KO ", STDERR) : ft_putstr_fd("OK ", STDERR);
-	ft_putstr_fd("minishell> ", STDERR);
-	if (get_next_line(0, &line) == -2 && (mini->exit = 1))
+	line = 0;
+	ft_prompt();
+	if (get_next_line(0, &line) == -2)
+	{
+		free(line);
 		ft_putendl_fd("exit", STDERR);
-	mini->ret = (status.code == 1) ? 1 : mini->ret;
-	if (check_quotes(mini, &line))
-		return;
+		clean_exit(mini);
+	}
+	if (quote_check(mini, &line))
+		return ;
 	line = space_line(line);
 	if (line && line[0] == '$')
 		line[0] = (char)(-line[0]);
 	mini->start = get_tokens(line);
 	ft_memdel(line);
-	_args(mini);
+	squish_args(mini);
 	token = mini->start;
 	while (token)
 	{
-		if (_type(token, ARG))
-			arg_type(token, 0);
+		if (is_tok_type(token, ARG))
+			type_arg(token, 0);
 		token = token->next;
 	}
 }

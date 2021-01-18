@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 11:40:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 16:44:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ int		bin_in_dir(char *bin, DIR *dir)
 	return (0);
 }
 
-void	prefix_path(char *path, t_minish *mini)
+void	prefix_path(char *path, char **cmd)
 {
 	char	*new;
 
 	if (path[ft_strlen(path) - 1] == '/')
-		new = ft_strjoin(path, mini->args[0], 0);
+		new = ft_strjoin(path, cmd[0], 0);
 	else
-		new = ft_strjoin(path, mini->args[0], '/');
-	free(mini->args[0]);
-	mini->args[0] = new;
+		new = ft_strjoin(path, cmd[0], '/');
+	free(cmd[0]);
+	cmd[0] = new;
 }
 
-void	add_path(t_minish *mini)
+void	add_path(t_minish *mini, char **cmd)
 {
 	int	i;
 	int	found_path;
@@ -65,14 +65,14 @@ void	add_path(t_minish *mini)
 	while (path[i] && !found_path)
 	{
 		dir = opendir(path[i]);
-		if (bin_in_dir(mini->args[0], dir))
+		if (bin_in_dir(cmd[0], dir))
 			found_path = 1;
 		else
 			i++;
 		closedir(dir);
 	}
 	if (found_path)
-		prefix_path(path[i], mini);
+		prefix_path(path[i], cmd);
 	free_strarray(path);
 }
 
@@ -107,18 +107,19 @@ int	handle_errors(t_minish *mini, char *path)
 	return (ret);
 }
 
-int	exec_bin(t_minish *mini)
+int	exec_bin(t_minish *mini, char **cmd)
 {
 	int ret;
 
 	ret = 0;
-	if (mini->args[0][0] != '/' && mini->args[0][0] != '.')
-		add_path(mini);
+	if (cmd[0][0] != '/' && cmd[0][0] != '.')
+		add_path(mini, cmd);
 	status.pid = fork();
 	if (status.pid == 0)
 	{
-		if (execve(mini->args[0], mini->args, mini->env) == -1)
-			ret = handle_errors(mini, mini->args[0]);
+		if (execve(cmd[0], cmd, mini->env) == -1)
+			ret = handle_errors(mini, cmd[0]);
+		free_token(mini->start);
 		exit(ret);
 	}
 	else if (status.pid < 0)

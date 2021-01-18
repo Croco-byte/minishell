@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/19 15:27:24 by user42            #+#    #+#              #
-#    Updated: 2021/01/06 12:15:36 by user42           ###   ########.fr        #
+#    Updated: 2021/01/14 14:44:55 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ FTPRINTF = flag_parse ft_itoa_dot ft_printf ft_ptr_itoa_dot ft_un_itoa_base_dot 
 FTPUT = char endl nbr str
 FTSTR = split strchr strdup strjoin strlcat strlcpy strlen strmapi strncmp strcmp strncpy strnstr strrchr strtrim substr
 FTTO = atoi itoa tolower toupper
+FTSKIP = space
 
 SRCS = 	$(addsuffix .c, $(addprefix ft_gnl/, $(FTGNL))) \
 		$(addsuffix .c, $(addprefix ft_is/ft_is, $(FTIS))) \
@@ -34,7 +35,8 @@ SRCS = 	$(addsuffix .c, $(addprefix ft_gnl/, $(FTGNL))) \
 		$(addsuffix .c, $(addprefix ft_printf/, $(FTPRINTF))) \
 		$(addsuffix _fd.c, $(addprefix ft_put/ft_put, $(FTPUT))) \
 		$(addsuffix .c, $(addprefix ft_str/ft_, $(FTSTR))) \
-		$(addsuffix .c, $(addprefix ft_to/ft_, $(FTTO)))
+		$(addsuffix .c, $(addprefix ft_to/ft_, $(FTTO))) \
+		$(addsuffix .c, $(addprefix ft_skip/ft_skip_, $(FTSKIP)))
 
 OBJS = ${SRCS:.c=.o}
 

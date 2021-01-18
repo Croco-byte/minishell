@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 15:36:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/11 12:51:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 16:44:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 #include "minishell.h"
 
-void	ft_exit(t_minish *mini)
+void	ft_exit(t_minish *mini, char **cmd)
 {
+	free_strarray(cmd);
 	clean_exit(mini);
 }

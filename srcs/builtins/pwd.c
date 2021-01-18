@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 17:21:49 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 15:36:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 15:44:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /* Affiche simplement le present working directory */
 
-int	ft_pwd(t_minish *mini)
+int	ft_pwd(char **cmd)
 {
 	char	cwd[PATH_MAX];
 
-	if (args_number(mini->args) > 1)
+	if (args_number(cmd) > 1)
 	{
 		ft_putendl_fd("pwd: too many arguments", 1);
 		return (1);

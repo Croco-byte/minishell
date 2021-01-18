@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 16:32:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/18 16:59:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,30 @@
 # define SUCCESS 0
 # define ERROR 1
 
-# define ENV_DISP 0
-# define EXPORT_DISP 1
+# define NOSKIP 0
+# define SKIP 1
+
 # define SEPARATORS " \t\r\n\a\v"
 
 # define EMPTY 0
 # define CMD 1
 # define ARG 2
-# define INFILE 3
-# define OUTFILE 4
-# define APPEND 5
-# define END 6
-# define PIPE 7
+# define TRUNC 3
+# define APPEND 4
+# define INPUT 5
+# define PIPE 6
+# define END 7
 
 # define STDIN 0
-# define STOUT 1
+# define STDOUT 1
 # define STDERR 2
 
 # define SKIP 1
 # define NOSKIP 0
 
 # define BUFF_SIZE 2048
-# define BIULDUP -28
-# define CD_NOTDIR	("Error Opening directory.")
-# define CD_NOPEM	("Permission denied.")
-# define UNKNOWN_COMMAND	("command not found: ")
+# define BUILDUP -28
+
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -71,56 +70,63 @@ typedef struct s_env
 typedef struct s_token
 {
 	char	*str;
-	int	type;
+	int		type;
 	struct	s_token	*prev;
 	struct	s_token	*next;
 }		t_token;
 
 typedef struct s_minish
 {
-	char	**args;
 	char	**env;
 	t_env	*parsed_env;
+
 	t_token	*start;
 
-	int	fdin;
-	int	fdout;
-	int	pid;
-	int	parent_pid;
-	int	in;
-	int	pipin;
-	int	out;
-	int	pipout;
-	int	ret;
-	int	exit;
+
+	int		in;
+	int		out;
+	int		fdin;
+	int		fdout;
+	int		pipin;
+	int		pipout;
+	int		no_exec;
+	int		parent;
+	int		last;
+	int		charge;
+
+	int		pid;
+
 
 }			t_minish;
 
 typedef	struct s_build
 {
 	char	*n_arg;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 }		t_build;
 
 /* DECLARATION OF MAIN FUNCTIONS */
 void	minish_loop(t_minish *mini);
 void	sig_int(int signal);
 void	sig_quit(int signal);
+void	redir(t_minish *mini, t_token *token, int type);
+void	input(t_minish *mini, t_token *token);
+int		minipipe(t_minish *mini);
 
 /* DECLARATION OF EXEC FUNCTIONS */
-void	exec_cmd(t_minish *mini);
-int		exec_builtin(t_minish *mini);
-int		exec_bin(t_minish *mini);
+void	exec_cmd(t_minish *mini, t_token *token);
+int		exec_builtin(t_minish *mini, char **cmd);
+int		exec_bin(t_minish *mini, char **cmd);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
-int		ft_pwd(t_minish *mini);
-int		ft_cd(t_minish *mini);
-int		ft_echo(t_minish *mini);
-int		ft_env(t_minish *mini);
-int		ft_export(t_minish *mini);
-int		ft_unset(t_minish *mini);
-void	ft_exit(t_minish *mini);
+int		ft_pwd(char **cmd);
+int		ft_cd(char **cmd);
+int		ft_echo(char **cmd);
+int		ft_env(t_minish *mini, char **cmd);
+int		ft_export(t_minish *mini, char **cmd);
+int		ft_unset(t_minish *mini, char **cmd);
+void	ft_exit(t_minish *mini, char **cmd);
 
 /* DECLARATION OF ENV FUNCTIONS */
 void	parse_env(t_minish *mini, char **env);
@@ -132,85 +138,62 @@ t_env	*copy_parsed_env(t_env *parsed_env);
 void	sort_parsed_env(t_env *parsed_env);
 void	display_parsed_env(t_env *parsed_env, int which);
 
-/* AJOUT D'AUTRES ENV FONCTIONS POUR LA GESTION ? */
-
-int	is_env_char(int c);
-int	env_value_size(const char *env);
-int	is_env_valid(const char *env);
-char	*get_env_value(char *arg, t_env *env);
-char	*env_value(char *env);
-char	*get_env_name(char *dest, const char *src);
-
-
 /* DECLARATION OF PARSING FUNCTIONS */
 char	**parse_line_temp(char *line);
+void	parse(t_minish *mini);
+void	display_chained_list(t_minish *mini);
+void	type_arg(t_token *token, int separator);
+void	squish_args(t_minish *mini);
+int		next_alloc(char *line, int *i);
+t_token	*next_token(char *line, int *i);
+t_token	*get_tokens(char *line);
+
+char	*expand(t_minish *mini, char *arg);
 
 /* DECLARATION OF UTILITIES FUNCTIONS */
+void	mini_init(t_minish *mini, char **env);
+void	sig_init(void);
+
+void	ft_close(int fd);
+void	reset_std(t_minish *mini);
+void	close_fds(t_minish *mini);
+void	reset_fds(t_minish *mini);
+
 int		is_builtin(char *prog_name);
 int		args_number(char **args);
 int		env_var_nb(t_env *parsed_env);
 void	clean_exit(t_minish *mini);
+void	free_token(t_token *start);
 void	ft_prompt(void);
 void	display_strarray(char **strarray);
 char	**copy_strarray(char **src);
 void	sort_strarray(char **to_sort);
 void	free_strarray(char **args);
 void	free_parsed_env(t_env *parsed_env);
-
-/* DECLARATION OF TYPES */
-int	_type(t_token *token, int type);
-int	_types(t_token *token, char *types);
-int	__pipe(t_token *token);
-int	__type(t_token *token, int type);
-void	args_type(t_token *token, int sep);
-void	arg_type(t_token *token, int sep);
-/* DECLARATION OF PARSER */
-int	quotes(char *line, int index);
-int	sep(char *line, int i);
-int	i_sep(char *line, int i);
-int	checkline(t_token *token);
-int	valid_arg(t_token *token);
-t_token	*prev_separator(t_token *token, int i);
-t_token	*next_separator(t_token *token, int i);
-t_token	*next_cmd(t_token *token, int i);
-
-/* DECLARATION OF BUILDUPS */
-
-int	varcopy(char *arg, const char *value_env, int pos);
-int	retsize(int ret);
-int	getvar_len(const char *arg, int pos, t_env *env, int ret);
-int	get_var_len(const char *arg, int pos, t_env *env, int ret);
-int	arg_alloc_size(const char *arg, t_env *env, int ret);
-
-void	insert_var(t_build *build, char *arg, t_env *env, int ret);
-char	*builds(char *arg, t_env *env, int ret);
-char	*get_var_value(const char *arg, int pos, t_env *env, int ret);
-
-/* DECLARATION OF TOKENS */
-
-int	next_alloc(char *line, int *i);
-t_token	*next_token(char *line, int *i);
-t_token	*get_tokens(char *line);
-void	_args(t_minish *mini);
-
-
-/* DECLARATION OF PARSE LINE */
-
-char	*alloc_space(char *line);
-char	*space_line(char *line);
-int	check_quotes(t_minish *mini, char **line);
-void	parse_line(t_minish *mini);
-
-/* DECLARATION utils functions */
-
-void	ft_skip_space(const char *str, int *i);
 void	*ft_memdel(void *ptr);
+
+int		is_sep(char *line, int i);
+int		ignore_sep(char *line, int i);
+int		quotes(char *line, int index);
+int		is_last_valid_arg(t_token *token);
+int		check_line(t_token *token);
+
+t_token	*next_run(t_token *token, int skip);
+t_token	*prev_sep(t_token *token, int skip);
+t_token	*next_sep(t_token *token, int skip);
+
+t_token	*next_type(t_token *token, int type, int skip);
+int		has_pipe(t_token *token);
+int		has_type(t_token *token, int type);
+int		is_types(t_token *token, char *types);
+int		is_tok_type(t_token *token, int type);
+
+int		char_in_str(char *str, char c);
+int		var_end_dist(char *str, int index);
+int		exp_in_env(t_minish *mini, char *arg, int begin);
+void	replace_str(char *result, char *src, char *to_insert, int index);
+void	replace_code(char *result, char *src, char *to_insert, int index);
+
+
 extern t_status status;
 #endif
-
-
-
-/* TODO QUENTIN :
-	- Pour afficher ou trier puis afficher l'environnement, passer par la version parsée.
-	- Afficher les valeurs entre guillemets pour l'affichage, comme en bash classique.
-*/
