@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:46:35 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 13:10:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:51:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		is_sep(char *line, int i)
 {
-	if (i > 0 && line[i - 1] == '\\' && ft_strchr("<>|;", line[i]))
+	if (i > 0 && is_escaped(line, i) && ft_strchr("<>|;", line[i]))
 		return (0);
 	else if (ft_strchr("<>|;", line[i]) && quotes(line, i) == 0)
 		return (1);
@@ -22,7 +22,7 @@ int		is_sep(char *line, int i)
 		return (0);
 }
 
-int		ignore_sep(char *line, int i)
+/* int		ignore_sep(char *line, int i)
 {
 	if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
 		return (1);
@@ -32,6 +32,35 @@ int		ignore_sep(char *line, int i)
 		return (1);
 	else if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == '>'
 				&& line[i + 2] && line[i + 2] == '>')
+		return (1);
+	return (0);
+} */
+
+int	sep_after_backslashes(char *line, int i)
+{
+	while (line[i] && line[i] == '\\')
+		i++;
+	if (line[i] && (line[i] == '>' || line[i] == ';' || line[i] == '|' || (line[i] == '>' && line[i + 1] && line[i + 1] == '>')))
+		return (1);
+	return (0);
+}
+
+int	nb_of_backslashes(char *line, int i)
+{
+	int count;
+
+	count = 0;
+	while (line[i] && line[i] == '\\')
+	{
+		i++;
+		count++;
+	}
+	return (count);
+}
+
+int		ignore_sep(char *line, int i)
+{
+	if (line[i] && line[i] == '\\' && sep_after_backslashes(line, i) && nb_of_backslashes(line, i) % 2 != 0)
 		return (1);
 	return (0);
 }
@@ -45,7 +74,7 @@ int		quotes(char *line, int index)
 	open = 0;
 	while (line[i] && i != index)
 	{
-		if (i > 0 && line[i - 1] == '\\')
+		if (i > 0 && is_escaped(line, i))
 			;
 		else if (open == 0 && line[i] == '\"')
 			open = 1;

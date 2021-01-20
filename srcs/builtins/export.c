@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/18 13:05:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/19 15:08:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_export(t_minish *mini, char **cmd)
 	i = 1;
 	if (args_number(cmd) <= 1)
 	{
-		display_sorted(mini);
+		display_parsed_env(mini->parsed_env, 1);
 		return (SUCCESS);
 	}
 	while (i < args_number(cmd))

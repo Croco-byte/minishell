@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/18 16:59:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/20 17:58:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,15 @@ int		exec_bin(t_minish *mini, char **cmd);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(char **cmd);
-int		ft_cd(char **cmd);
+int		ft_cd(t_minish *mini, char **cmd);
 int		ft_echo(char **cmd);
 int		ft_env(t_minish *mini, char **cmd);
 int		ft_export(t_minish *mini, char **cmd);
 int		ft_unset(t_minish *mini, char **cmd);
 void	ft_exit(t_minish *mini, char **cmd);
+
+void	add_env_var(t_minish *mini, char *var);
+void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos);
 
 /* DECLARATION OF ENV FUNCTIONS */
 void	parse_env(t_minish *mini, char **env);
@@ -194,6 +197,21 @@ int		exp_in_env(t_minish *mini, char *arg, int begin);
 void	replace_str(char *result, char *src, char *to_insert, int index);
 void	replace_code(char *result, char *src, char *to_insert, int index);
 
+int		is_escaped(char *str, int index);
+
 
 extern t_status status;
 #endif
+
+
+/* TODO
+> [DONE]	Affichage de env : retirer le "declare -x" qui n'est présent que dans le cadre de la commande export.
+> [DONE]	Gérer cd ~ (variable d'environnement HOME)
+> [DONE]	Gérer cd - (variable d'environnement OLDPWD)
+> [DONE]	Gérer le cas des backslashs : si un backslash est escape, il ne neutralise pas le caractère suivant. Exemple : echo "Hello \\$PATH" doit afficher la variable d'environnement PATH.
+> 			Gérer le cas de echo : "echo -nnnnnnn hi" doit fonctionner comme "echo -n hi".
+>			Modifier les affichages de message d'erreur pour qu'ils aillent bien vers STDERR et pas STDOUT.
+>			S'occuper de la variable d'environnement shell level.
+>			S'assurer que, dans la commande, les tabulations, new_lines etc... soient bien traités comme des espaces.
+>			Gérer les arguments de exit.
+*/

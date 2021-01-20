@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/17 12:57:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/19 16:14:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ void	minish(t_minish *mini)
 			free_token(mini->start);
 			exit(status.code);
 		}
-		ft_putstr_fd("[DEBUG] Last command returned ", STDERR);
-		ft_putnbr_fd(status.code, STDERR);
-		ft_putchar_fd('\n', STDERR);
 		mini->no_exec = 0;
 		token = next_run(token, SKIP);
 	}

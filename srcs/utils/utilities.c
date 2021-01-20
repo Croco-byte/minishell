@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:10:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/17 15:12:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:08:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,25 @@ int	env_var_nb(t_env *parsed_env)
 	while (parsed_env[i].key)
 		i++;
 	return (i);
+}
+
+int	is_escaped(char *str, int index)
+{
+	int	i;
+	int	backslash_count;
+
+	i = index;
+	if (i == 0)
+		return (0);
+	i--;
+	backslash_count = 0;
+	while (i >= 0 && str[i] == '\\')
+	{
+		backslash_count++;
+		i--;
+	}
+	if (backslash_count % 2 == 0)
+		return (0);
+	else
+		return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:35:25 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 15:45:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/19 15:19:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	exec_builtin(t_minish *mini, char **cmd)
 	if (ft_strcmp(cmd[0], "pwd") == 0)
 		ret = ft_pwd(cmd);
 	if (ft_strcmp(cmd[0], "cd") == 0)
-		ret = ft_cd(cmd);
+		ret = ft_cd(mini, cmd);
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		ret = ft_echo(cmd);
 	if (ft_strcmp(cmd[0], "env") == 0)
