@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:09:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 15:51:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 17:11:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,57 @@ char	**cmd_from_tokens(t_token *start)
 	return (tab);
 }
 
+int		no_quotes_len(char *cmd)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\"' && quotes(cmd, i) != 2 && !is_escaped(cmd, i))
+			i++;
+		else if (cmd[i] == '\'' && quotes(cmd, i) != 1 && !is_escaped(cmd, i))
+			i++;
+		else if(cmd[i] == '\\' && !is_escaped(cmd, i))
+			i++;
+		else
+		{
+			count++;
+			i++;
+		}
+	}
+	return (count);
+}
+
+char	*strip_quotes(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	result = malloc((no_quotes_len(cmd) + 1) * sizeof(char));
+	if (!result)
+		return (0);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\"' && quotes(cmd, i) != 2 && !is_escaped(cmd, i))
+			i++;
+		else if (cmd[i] == '\'' && quotes(cmd, i) != 1 && !is_escaped(cmd, i))
+			i++;
+		else if(cmd[i] == '\\' && !is_escaped(cmd, i))
+			i++;
+		else
+			result[j++] = cmd[i++];
+	}
+	result[j] = '\0';
+	free(cmd);
+	return (result);
+}
+
 
 void	exec_cmd(t_minish *mini, t_token *token)
 {
@@ -58,6 +109,13 @@ void	exec_cmd(t_minish *mini, t_token *token)
 	while (cmd && cmd[i])
 	{
 		cmd[i] = expand(mini, cmd[i]);
+		i++;
+	}
+	i = 0;
+	while (cmd && cmd[i])
+	{
+		cmd[i] = strip_quotes(cmd[i]);
+//		printf("cmd[%i] = |%s|\n", i, cmd[i]);
 		i++;
 	}
 	if (cmd[0] && is_builtin(cmd[0]))
