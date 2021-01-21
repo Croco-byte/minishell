@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:24:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 11:08:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 12:45:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	sig_int(int signal)
 	(void)signal;
 	if (status.pid == 0)
 	{
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("\033[1;31m🐊 minishell ▸ \033[0m", 1);
+		ft_putstr_fd("\n", STDERR);
+		ft_putstr_fd("\033[1;31m🐊 minishell ▸ \033[0m", STDERR);
 	}
 	else
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", STDERR);
 	status.code = 130;
 }
 
@@ -51,9 +51,9 @@ void	sig_quit(int sign)
 	(void)sign;
 	if (status.pid != 0)
 	{
-		ft_putstr_fd("Quit (core dumped)\n", 1);
+		ft_putstr_fd("Quit (core dumped)\n", STDERR);
 		status.code = 131;
 	}
 	else
-		ft_putstr_fd("\b\b  \b\b", 1);
+		ft_putstr_fd("\b\b  \b\b", STDERR);
 }

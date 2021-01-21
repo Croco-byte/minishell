@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:39:46 by user42            #+#    #+#             */
-/*   Updated: 2021/01/20 15:54:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 15:39:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	display_chained_list(t_minish *mini)
 void	parse(t_minish *mini)
 {
 	char	*line;
-//	t_token	*token;
+	t_token	*token;
 
 	line = 0;
 	ft_prompt();
@@ -102,19 +102,19 @@ void	parse(t_minish *mini)
 	if (quote_check(mini, &line))
 		return ;
 	line = space_line(line);
-	ft_printf("Line : %s\n", line);
+//	ft_printf("Line : %s\n", line);
 	if (line && line[0] == '$')
 		line[0] = (char)(-line[0]);
 	mini->start = get_tokens(line);
-	display_chained_list(mini);
+//	display_chained_list(mini);
 	ft_memdel(line);
 	squish_args(mini);
-//	token = mini->start;
-//	while (token)
-//	{
-//		if (is_tok_type(token, ARG))
-//			type_arg(token, 0);
-//		token = token->next;
-//	}
-//	display_chained_list(mini);
+	token = mini->start;
+	while (token)
+	{
+		if (is_tok_type(token, ARG))
+			type_arg(token, 0);
+		token = token->next;
+	}
+	display_chained_list(mini);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:39:12 by user42            #+#    #+#             */
-/*   Updated: 2021/01/19 16:14:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 11:46:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argv;
 	status.code = 0;
 	mini_init(&mini, env);
+	increase_shell_level(&mini);
 	sig_init();
 	minish_loop(&mini);
 	return (0);

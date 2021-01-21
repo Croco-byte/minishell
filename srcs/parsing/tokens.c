@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:47:27 by user42            #+#    #+#             */
-/*   Updated: 2021/01/20 17:49:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 12:00:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_token	*next_token(char *line, int *i)
 	if (!(token = malloc(sizeof(t_token)))
 	|| !(token->str = malloc(sizeof(char) * next_alloc(line, i))))
 		return (NULL);
-	while (line[*i] && (line[*i] != ' ' || c != ' '))
+	while (line[*i] && (!ft_isspace(line[*i]) || c != ' '))
 	{
 		if (c == ' ' && (line[*i] == '\'' || line[*i] == '\"'))
 			c = line[(*i)++];

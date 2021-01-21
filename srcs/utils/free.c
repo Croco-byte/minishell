@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/14 16:05:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 12:37:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 void	clean_exit(t_minish *mini)
 {
-	ft_putendl_fd("Bye ! 👋", 1);
+//	ft_putendl_fd("Bye ! 👋", 1);
 	free_strarray(mini->env);
 	free_parsed_env(mini->parsed_env);
 	free_token(mini->start);
-	ft_printf("[DEBUG] Exiting with code : %i\n", status.code);
+//	ft_printf("[DEBUG] Exiting with code : %i\n", status.code);
 	exit(status.code);
 }
 

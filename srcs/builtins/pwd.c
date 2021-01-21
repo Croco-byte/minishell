@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 17:21:49 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 15:44:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 13:59:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_pwd(char **cmd)
 
 	if (args_number(cmd) > 1)
 	{
-		ft_putendl_fd("pwd: too many arguments", 1);
+		ft_putendl_fd("pwd: too many arguments", STDERR);
 		return (1);
 	}
 	if (getcwd(cwd, PATH_MAX))
@@ -30,7 +30,7 @@ int	ft_pwd(char **cmd)
 	}
 	else
 	{
-		ft_putendl_fd("[Cwd not found]", 1);
+		ft_putendl_fd("minishell: pwd: could not determine current directory: no such file or directory", STDERR);
 		return (1);
 	}
 }

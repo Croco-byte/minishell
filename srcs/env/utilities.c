@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/14 14:38:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/21 11:20:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,15 @@ void	display_parsed_env(t_env *parsed_env, int which)
 	while (parsed_env[i].key)
 	{
 		if (which)
-			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd("declare -x ", STDOUT);
 		ft_putstr_fd(parsed_env[i].key, 1);
-		ft_putchar_fd('=', 1);
+		ft_putchar_fd('=', STDOUT);
 		if (which)
-			ft_putchar_fd('"', 1);
+			ft_putchar_fd('"', STDOUT);
 		ft_putstr_fd(parsed_env[i].value, 1);
 		if (which)
-			ft_putchar_fd('"', 1);
-		ft_putchar_fd('\n', 1);
+			ft_putchar_fd('"', STDOUT);
+		ft_putchar_fd('\n', STDOUT);
 		i++;
 	}
 }
