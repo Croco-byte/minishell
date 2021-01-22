@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/19 15:08:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/22 13:11:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,13 @@ void	display_sorted(t_minish *mini)
 int		is_env_var(char *var)
 {
 	int	i;
-	char	*key;
-	char	*value;
 
-	key = ft_substr(var, 0, get_key_len(var));
-	value = get_value(var, get_key_len(var));
 	i = 0;
-	if (!key[0] || ft_isdigit(key[0]))
-	{
-		free(key);
-		free(value);
-		return (0);
-	}
-	while (key[i])
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-		{
-			free(key);
-			free(value);
-			return (0);
-		}
+	while(var && var[i] && (ft_isalnum(var[i]) || var[i] == '_'))
 		i++;
-	}
-	free(key);
-	free(value);
-	return (1);
+	if (var[i] == '\0' || var[i] == '=' || (var[i] == '+' && var[i + 1] && var[i + 1] == '='))
+		return (1);
+	return (0);
 }
 
 void	add_env_var(t_minish *mini, char *var)
@@ -75,7 +57,7 @@ void	add_env_var(t_minish *mini, char *var)
 		i++;
 	}
 	new[i].key = ft_substr(var, 0, get_key_len(var));
-	new[i++].value = get_value(var, get_key_len(var));
+	new[i++].value = get_value(var, get_key_len(var), -1, mini->parsed_env);
 	new[i].key = 0;
 	free_parsed_env(mini->parsed_env);
 	mini->parsed_env = new;
@@ -85,16 +67,12 @@ void	add_env_var(t_minish *mini, char *var)
 void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 {
 	int	i;
-	char	*new_key;
 	char	*new_value;
 
-	new_key = ft_substr(var, 0, get_key_len(var));
-	new_value = get_value(var, get_key_len(var));
 	i = 0;
 	while (i < pos)
 		i++;
-	free(parsed_env[i].key);
-	parsed_env[i].key = new_key;
+	new_value = get_value(var, get_key_len(var), i, parsed_env);
 	if (new_value[0] != '\0')
 	{
 		free(parsed_env[i].value);

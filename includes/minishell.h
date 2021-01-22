@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 15:34:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/22 18:22:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		ft_echo(char **cmd);
 int		ft_env(t_minish *mini, char **cmd);
 int		ft_export(t_minish *mini, char **cmd);
 int		ft_unset(t_minish *mini, char **cmd);
-void	ft_exit(t_minish *mini, char **cmd);
+int		ft_exit(t_minish *mini, char **cmd);
 
 void	add_env_var(t_minish *mini, char *var);
 void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos);
@@ -123,7 +123,7 @@ void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos);
 void	parse_env(t_minish *mini, char **env);
 char	**update_env(char **env, t_env *parsed_env);
 int		get_key_len(char *var);
-char	*get_value(char *var, int pos);
+char	*get_value(char *var, int pos, int i, t_env *parsed_env);
 int		is_in_env(t_minish *mini, char *var);
 t_env	*copy_parsed_env(t_env *parsed_env);
 void	sort_parsed_env(t_env *parsed_env);
@@ -202,11 +202,13 @@ extern t_status status;
 > [DONE]	Modifier les affichages de message d'erreur pour qu'ils aillent bien vers STDERR et pas STDOUT.
 > [DONE]	S'occuper de la variable d'environnement shell level.
 > [DONE]	S'assurer que, dans la commande, les tabulations, new_lines etc... soient bien traités comme des espaces.
-
+> [DONE]	La commande "env" ne doit pas afficher de variable vide. La commande "export" doit l'afficher sur le modèle declare -x VAR.
+> [DONE]	Les additions aux variables d'environnement existantes doivent être gérées (export test+=<added to var value>).
+>			Gérer les arguments de "exit".
 
 BUGS TO FIX :
 > [DONE]	cd ; pwd
 > [~DONE~]	Comportement étrange dans bash, on ne gère pas : mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
-> 			echo $TEST$TEST=lol$TEST""lol
+> [DONE]	echo $TEST$TEST=lol$TEST""lol
 
 */

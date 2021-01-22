@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 11:20:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/22 11:35:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,30 @@ void	sort_parsed_env(t_env *parsed_env)
 	}
 }
 
+void	display_non_empty(t_env *parsed_env, int which, int i)
+{
+	if (which)
+		ft_putstr_fd("declare -x ", STDOUT);
+	ft_putstr_fd(parsed_env[i].key, STDOUT);
+	ft_putchar_fd('=', STDOUT);
+	if (which)
+		ft_putchar_fd('"', STDOUT);
+	ft_putstr_fd(parsed_env[i].value, STDOUT);
+	if (which)
+		ft_putchar_fd('"', STDOUT);
+	ft_putchar_fd('\n', STDOUT);
+}
+
+void	display_empty(t_env *parsed_env, int which, int i)
+{
+	if (which)
+	{
+		ft_putstr_fd("declare -x ", STDOUT);
+		ft_putstr_fd(parsed_env[i].key, STDOUT);
+		ft_putchar_fd('\n', STDOUT);
+	}
+}
+
 void	display_parsed_env(t_env *parsed_env, int which)
 {
 	int	i;
@@ -96,16 +120,10 @@ void	display_parsed_env(t_env *parsed_env, int which)
 	i = 0;
 	while (parsed_env[i].key)
 	{
-		if (which)
-			ft_putstr_fd("declare -x ", STDOUT);
-		ft_putstr_fd(parsed_env[i].key, 1);
-		ft_putchar_fd('=', STDOUT);
-		if (which)
-			ft_putchar_fd('"', STDOUT);
-		ft_putstr_fd(parsed_env[i].value, 1);
-		if (which)
-			ft_putchar_fd('"', STDOUT);
-		ft_putchar_fd('\n', STDOUT);
+		if (parsed_env[i].value[0] != '\0')
+			display_non_empty(parsed_env, which, i);
+		else
+			display_empty(parsed_env, which, i);
 		i++;
 	}
 }

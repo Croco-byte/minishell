@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:17:59 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 14:15:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/22 13:08:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,34 @@ int	get_key_len(char *var)
 	int	i;
 
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while (var[i] && var[i] != '=' && var[i] != '+')
 		i++;
 	return (i);
 }
 
-char	*get_value(char *var, int pos)
+char	*get_value(char *var, int pos, int i, t_env *parsed_env)
 {
+	int	add;
+
+	add = 0;
 	if (!var[pos])
 		return (ft_strdup("\0"));
+	else if (var[pos] == '+')
+	{
+		add = 1;
+		pos += 2;
+	}
 	else
 		pos++;
 	if (!var[pos])
 		return (ft_strdup("\0"));
 	else
-		return (ft_strdup(var + pos));
+	{
+		if (add && i > -1)
+			return (ft_strjoin(parsed_env[i].value, var + pos, 0));
+		else
+			return (ft_strdup(var + pos));
+	}
 }
 
 void	parse_env(t_minish *mini, char **env)
@@ -61,7 +74,7 @@ void	parse_env(t_minish *mini, char **env)
 	{
 		key_len = get_key_len(env[i]);
 		mini->parsed_env[i].key = ft_substr(env[i], 0, key_len);
-		mini->parsed_env[i].value = get_value(env[i], key_len);
+		mini->parsed_env[i].value = get_value(env[i], key_len, -1, mini->parsed_env);
 		i++;
 	}
 	mini->parsed_env[i].key = 0;
