@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 16:44:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/23 15:53:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int		bin_in_dir(char *bin, DIR *dir)
 	return (0);
 }
 
-void	prefix_path(char *path, char **cmd)
+void	prefix_path(char *path, char **cmd, int i)
 {
 	char	*new;
 
 	if (path[ft_strlen(path) - 1] == '/')
-		new = ft_strjoin(path, cmd[0], 0);
+		new = ft_strjoin(path, cmd[i], 0);
 	else
-		new = ft_strjoin(path, cmd[0], '/');
-	free(cmd[0]);
-	cmd[0] = new;
+		new = ft_strjoin(path, cmd[i], '/');
+	free(cmd[i]);
+	cmd[i] = new;
 }
 
 void	add_path(t_minish *mini, char **cmd)
@@ -72,7 +72,7 @@ void	add_path(t_minish *mini, char **cmd)
 		closedir(dir);
 	}
 	if (found_path)
-		prefix_path(path[i], cmd);
+		prefix_path(path[i], cmd, 0);
 	free_strarray(path);
 }
 

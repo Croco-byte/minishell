@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/22 13:11:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/23 12:49:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		is_env_var(char *var)
 	int	i;
 
 	i = 0;
+	if (var && (ft_isdigit(var[0]) || var[0] == '='))
+		return (0);
 	while(var && var[i] && (ft_isalnum(var[i]) || var[i] == '_'))
 		i++;
 	if (var[i] == '\0' || var[i] == '=' || (var[i] == '+' && var[i + 1] && var[i + 1] == '='))
@@ -97,8 +99,9 @@ int	ft_export(t_minish *mini, char **cmd)
 	{
 		if (!is_env_var(cmd[i]))
 		{
-			ft_putstr_fd("export: not valid in this context: ", STDERR);
+			ft_putstr_fd("minishell: export: not valid in this context: ", STDERR);
 			ft_putendl_fd(cmd[i], STDERR);
+			return (1);
 		}
 		else
 			if (is_in_env(mini, cmd[i]) != -1)

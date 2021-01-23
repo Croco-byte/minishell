@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/22 18:22:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/23 17:10:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ void	exec_cmd(t_minish *mini, t_token *token);
 int		exec_builtin(t_minish *mini, char **cmd);
 int		exec_bin(t_minish *mini, char **cmd);
 
+void	prefix_path(char *path, char **cmd, int i);
+
 /* DECLARATION OF BUILTIN FUNCTIONS */
-int		ft_pwd(char **cmd);
+int		ft_pwd(t_minish *mini, char **cmd);
 int		ft_cd(t_minish *mini, char **cmd);
 int		ft_echo(char **cmd);
 int		ft_env(t_minish *mini, char **cmd);
@@ -204,11 +206,15 @@ extern t_status status;
 > [DONE]	S'assurer que, dans la commande, les tabulations, new_lines etc... soient bien traités comme des espaces.
 > [DONE]	La commande "env" ne doit pas afficher de variable vide. La commande "export" doit l'afficher sur le modèle declare -x VAR.
 > [DONE]	Les additions aux variables d'environnement existantes doivent être gérées (export test+=<added to var value>).
->			Gérer les arguments de "exit".
+> [DONE]	Gérer les arguments de "exit".
+> [DONE]	Gérer la variable CDPATH.
+> [DONE]	Gérer l'escaping différent quand on est entre quotes
+> [DONE]	Gérer le code d'erreur de "export ="
 
 BUGS TO FIX :
 > [DONE]	cd ; pwd
-> [~DONE~]	Comportement étrange dans bash, on ne gère pas : mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
+> [DONE]	mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
 > [DONE]	echo $TEST$TEST=lol$TEST""lol
+
 
 */

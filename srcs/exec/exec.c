@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:09:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 17:11:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/23 17:00:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ int		no_quotes_len(char *cmd)
 			i++;
 		else if (cmd[i] == '\'' && quotes(cmd, i) != 1 && !is_escaped(cmd, i))
 			i++;
-		else if(cmd[i] == '\\' && !is_escaped(cmd, i))
+		else if(cmd[i] == '\\' && quotes(cmd, i) != 1 && quotes(cmd, i) != 2 && !is_escaped(cmd, i))
+			i++;
+		else if (cmd[i] == '\\' && quotes(cmd, i) == 1 && cmd[i + 1] && (cmd[i + 1] == '\\' || cmd[i + 1] == '\"' || cmd[i + 1] == '$') && !(is_escaped(cmd, i)))
+			i++;
+		else if (cmd[i] == '\\' && quotes(cmd, i) == 2 && cmd[i + 1] && (cmd[i + 1] == '\\' || cmd[i + 1] == '\'' || cmd[i + 1] == '$') && !(is_escaped(cmd, i)))
 			i++;
 		else
 		{
@@ -86,13 +90,41 @@ char	*strip_quotes(char *cmd)
 			i++;
 		else if (cmd[i] == '\'' && quotes(cmd, i) != 1 && !is_escaped(cmd, i))
 			i++;
-		else if(cmd[i] == '\\' && !is_escaped(cmd, i))
+		else if(cmd[i] == '\\' && quotes(cmd, i) != 1 && quotes(cmd, i) != 2 && !is_escaped(cmd, i))
+			i++;
+		else if (cmd[i] == '\\' && quotes(cmd, i) == 1 && cmd[i + 1] && (cmd[i + 1] == '\\' || cmd[i + 1] == '\"' || cmd[i + 1] == '$') && !(is_escaped(cmd, i)))
+			i++;
+		else if (cmd[i] == '\\' && quotes(cmd, i) == 2 && cmd[i + 1] && (cmd[i + 1] == '\\' || cmd[i + 1] == '\'' || cmd[i + 1] == '$') && !(is_escaped(cmd, i)))
 			i++;
 		else
 			result[j++] = cmd[i++];
 	}
 	result[j] = '\0';
 	free(cmd);
+	return (result);
+}
+
+char	**delete_arg(char **cmd, int i)
+{
+	char	**result;
+	int	j;
+
+	result = malloc(args_number(cmd) * sizeof(char *));
+	if (!result)
+		return (0);
+	j = 0;
+	while (j < i)
+	{
+		result[j] = ft_strdup(cmd[j]);
+		j++;
+	}
+	while (cmd[j + 1])
+	{
+		result[j] = ft_strdup(cmd[j + 1]);
+		j++;
+	}
+	result[j] = 0;
+	free_strarray(cmd);
 	return (result);
 }
 
@@ -111,6 +143,15 @@ void	exec_cmd(t_minish *mini, t_token *token)
 		cmd[i] = expand(mini, cmd[i]);
 		i++;
 	}
+	i = 0;
+	while (cmd && cmd[i] && cmd[i + 1])
+	{
+		if (cmd[i][0] == '\0')
+			cmd = delete_arg(cmd, i);
+		i++;
+	}
+	if (cmd && cmd[i] && cmd[i][0] == '\0')
+		cmd = delete_arg(cmd, i);
 	i = 0;
 	while (cmd && cmd[i])
 	{
