@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 17:10:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 14:06:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_status
 
 typedef struct s_env
 {
+	int		has_space;
 	char	*key;
 	char	*value;
 }			t_env;
@@ -210,6 +211,10 @@ extern t_status status;
 > [DONE]	Gérer la variable CDPATH.
 > [DONE]	Gérer l'escaping différent quand on est entre quotes
 > [DONE]	Gérer le code d'erreur de "export ="
+> [DONE]	Régler le cas de "export HOME=", qui ne vide pas la variable existante HOME.
+> [DONE]	export test= : affiche test= dans "env", affiche declare -x test="" dans "export" ; "export test" n'affiche rien dans "env", et affiche declare -x test dans "export".
+> [DONE]	export HOME (sans égal) ne remplace PAS la variable HOME existante ; export HOME= remplace la variable HOME existante par du vide.
+>			SIGINT affiche un code d'erreur 2 au lieu de 130.
 
 BUGS TO FIX :
 > [DONE]	cd ; pwd

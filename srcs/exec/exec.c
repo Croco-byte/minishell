@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:09:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 17:00:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 16:32:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ void	exec_cmd(t_minish *mini, t_token *token)
 	if (cmd[0] && is_builtin(cmd[0]))
 		status.code = exec_builtin(mini, cmd);
 	else if (cmd[0])
-		status.code = exec_bin(mini, cmd);
+		exec_bin(mini, cmd);
+
 	free_strarray(cmd);
 	mini->charge = 0;
 }

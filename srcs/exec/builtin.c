@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:35:25 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 13:22:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 16:39:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	exec_builtin(t_minish *mini, char **cmd)
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		ret = ft_echo(cmd);
 	if (ft_strcmp(cmd[0], "env") == 0)
-		ft_env(mini, cmd);
+		ret = ft_env(mini, cmd);
 	if (ft_strcmp(cmd[0], "export") == 0)
 		ret = ft_export(mini, cmd);
 	if (ft_strcmp(cmd[0], "unset") == 0)
-		ft_unset(mini, cmd);
+		ret = ft_unset(mini, cmd);
 	if (ft_strcmp(cmd[0], "exit") == 0)
 		ret = ft_exit(mini, cmd);
 	return (ret);

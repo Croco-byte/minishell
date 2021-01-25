@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/22 11:35:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 12:38:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_env	*copy_parsed_env(t_env *parsed_env)
 		return (0);
 	while (i < var_nb)
 	{
+		copy[i].has_space = parsed_env[i].has_space;
 		copy[i].key = ft_strdup(parsed_env[i].key);
 		copy[i].value = ft_strdup(parsed_env[i].value);
 		i++;
@@ -109,7 +110,14 @@ void	display_empty(t_env *parsed_env, int which, int i)
 	{
 		ft_putstr_fd("declare -x ", STDOUT);
 		ft_putstr_fd(parsed_env[i].key, STDOUT);
+		if (parsed_env[i].has_space)
+			ft_putstr_fd("=\"\"", STDOUT);
 		ft_putchar_fd('\n', STDOUT);
+	}
+	else if (parsed_env[i].has_space)
+	{
+		ft_putstr_fd(parsed_env[i].key, STDOUT);
+		ft_putendl_fd("=", STDOUT);
 	}
 }
 

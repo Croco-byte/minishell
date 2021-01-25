@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:48:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 15:53:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 16:34:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,6 @@ int	exec_bin(t_minish *mini, char **cmd)
 	else
 		waitpid(status.pid, &ret, 0);
 	if (!WIFSIGNALED(ret))
-		ret = WEXITSTATUS(ret);
+		status.code = WEXITSTATUS(ret);
 	return (ret);
 }

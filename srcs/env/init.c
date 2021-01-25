@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:17:59 by user42            #+#    #+#             */
-/*   Updated: 2021/01/22 13:08:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 12:03:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ void	parse_env(t_minish *mini, char **env)
 		return ;
 	while (env[i])
 	{
+		mini->parsed_env[i].has_space = 0;
+		if (char_in_str(env[i], '='))
+			mini->parsed_env[i].has_space = 1;
 		key_len = get_key_len(env[i]);
 		mini->parsed_env[i].key = ft_substr(env[i], 0, key_len);
 		mini->parsed_env[i].value = get_value(env[i], key_len, -1, mini->parsed_env);

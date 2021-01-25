@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:59:02 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 12:49:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 13:32:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,14 @@ void	add_env_var(t_minish *mini, char *var)
 		return ;
 	while (i < var_nb)
 	{
+		new[i].has_space = mini->parsed_env[i].has_space;
 		new[i].key = ft_strdup(mini->parsed_env[i].key);
 		new[i].value = ft_strdup(mini->parsed_env[i].value);
 		i++;
 	}
+	new[i].has_space = 0;
+	if (char_in_str(var, '='))
+		new[i].has_space = 1;
 	new[i].key = ft_substr(var, 0, get_key_len(var));
 	new[i++].value = get_value(var, get_key_len(var), -1, mini->parsed_env);
 	new[i].key = 0;
@@ -75,8 +79,9 @@ void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 	while (i < pos)
 		i++;
 	new_value = get_value(var, get_key_len(var), i, parsed_env);
-	if (new_value[0] != '\0')
+	if (new_value && char_in_str(var, '='))
 	{
+		parsed_env[i].has_space = 1;
 		free(parsed_env[i].value);
 		parsed_env[i].value = new_value;
 	}
@@ -88,20 +93,22 @@ void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos)
 int	ft_export(t_minish *mini, char **cmd)
 {
 	int	i;
+	int	error_happened;
 
 	i = 1;
+	error_happened = 0;
 	if (args_number(cmd) <= 1)
 	{
-		display_parsed_env(mini->parsed_env, 1);
-		return (SUCCESS);
+		display_sorted(mini);
+		return (0);
 	}
 	while (i < args_number(cmd))
 	{
-		if (!is_env_var(cmd[i]))
+		if (!is_env_var(cmd[i]) || cmd[i][0] == '\0')
 		{
 			ft_putstr_fd("minishell: export: not valid in this context: ", STDERR);
 			ft_putendl_fd(cmd[i], STDERR);
-			return (1);
+			error_happened = 1;
 		}
 		else
 			if (is_in_env(mini, cmd[i]) != -1)
@@ -110,6 +117,6 @@ int	ft_export(t_minish *mini, char **cmd)
 				add_env_var(mini, cmd[i]);
 		i++;
 	}
-	return (SUCCESS);
+	return (error_happened);
 }
 

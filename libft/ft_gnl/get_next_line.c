@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:06:56 by user42            #+#    #+#             */
-/*   Updated: 2021/01/10 11:45:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 17:11:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ int	get_next_line(int fd, char **line)
 	free(buff);
 	*line = line_from_save(save);
 	save = update_save(save, &last_line);
-	return(get_status(line, save, &last_line, reader));
+	return (get_status(line, save, &last_line, reader));
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 12:08:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 15:42:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 13:47:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,22 @@ int	ft_unset(t_minish *mini, char **cmd)
 {
 	int i;
 	int	pos;
+	int	error_happened;
 
 	i = 1;
-	if (args_number(cmd) < 2)
-	{
-		ft_putendl_fd("unset: not enough arguments", 1);
-		return (ERROR);
-	}
+	error_happened = 0;
 	while (i < args_number(cmd))
 	{
+		if (cmd[i][0] == '\0')
+		{
+			ft_putstr_fd("minishell: export: not valid in this context: ", STDERR);
+			ft_putendl_fd(cmd[i], STDERR);
+			error_happened = 1;
+		}
 		pos = is_in_env(mini, cmd[i]);
 		if (pos != -1)
 			del_env_var(mini, pos);
 		i++;
 	}
-	return (SUCCESS);
+	return (error_happened);
 }

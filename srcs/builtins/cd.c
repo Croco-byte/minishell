@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 15:50:05 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 17:12:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/25 17:55:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int	cd_home(t_minish *mini, char **cmd)
 			ft_putendl_fd("minishell: cd: « HOME » not set", STDERR);
 			return (1);
 		}
+		else if (cmd[1][1] == '\0'
+			&& mini->parsed_env[env_pos(mini, "HOME")].value[0] == '\0')
+			return (-1);
 		cmd[1] = insert_home(mini, cmd[1]);
 	}
 	return (0);
@@ -114,6 +117,8 @@ int	cd_default(t_minish *mini, char **cmd)
 		ft_putendl_fd("minishell: cd: « HOME » not set", STDERR);
 		return (1);
 	}
+	if (mini->parsed_env[home_pos].value[0] == '\0')
+		return (0);
 	if (chdir(mini->parsed_env[home_pos].value) == -1)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
@@ -127,11 +132,40 @@ int	cd_default(t_minish *mini, char **cmd)
 	return (0);
 }
 
+void	update_pwd_cd_point(t_minish *mini, char **cmd)
+{
+	char	*pwd;
+	char	*pwd2;
+
+	if (ft_strcmp(cmd[1], ".") == 0 || ft_strcmp(cmd[1], "./") == 0)
+	{
+		ft_putstr_fd("cd: error determining current directory:", STDERR);
+		ft_putstr_fd(" getcwd: cannot access parent directories:", STDERR);
+		ft_putendl_fd(" no such file or directory", STDERR);
+		pwd = ft_strjoin("PWD=", mini->parsed_env[env_pos(mini, "PWD")].value, 0);
+		pwd2 = ft_strjoin(pwd, "/.", 0);
+		repl_env_var(mini, mini->parsed_env, pwd2, env_pos(mini, "PWD"));
+		free(pwd);
+		free(pwd2);
+	}
+	if (ft_strcmp(cmd[1], "..") == 0 || ft_strcmp(cmd[1], "../") == 0)
+	{
+		ft_putstr_fd("cd: error determining current directory:", STDERR);
+		ft_putstr_fd(" getcwd: cannot access parent directories:", STDERR);
+		ft_putendl_fd(" no such file or directory", STDERR);
+		pwd = ft_strjoin("PWD=", mini->parsed_env[env_pos(mini, "PWD")].value, 0);
+		pwd2 = ft_strjoin(pwd, "/..", 0);
+		repl_env_var(mini, mini->parsed_env, pwd2, env_pos(mini, "PWD"));
+		free(pwd);
+		free(pwd2);
+	}
+}
+
 void	update_pwd(t_minish *mini, char **cmd)
 {
 	char	*pwd_var;
-	char	*pwd_var2;
 	char	cwd[PATH_MAX];
+
 	if (getcwd(cwd, PATH_MAX))
 	{
 		pwd_var = ft_strjoin("PWD=", cwd, 0);
@@ -142,31 +176,12 @@ void	update_pwd(t_minish *mini, char **cmd)
 		free(pwd_var);
 	}
 	else if (env_pos(mini, "PWD") != -1)
-	{
-		if (ft_strcmp(cmd[1], ".") == 0 || ft_strcmp(cmd[1], "./") == 0)
-		{
-			ft_putendl_fd("cd: error determining current directory: getcwd: cannot access parent directories: no such file or directory", STDERR);
-			pwd_var = ft_strjoin("PWD=", mini->parsed_env[env_pos(mini, "PWD")].value, 0);
-			pwd_var2 = ft_strjoin(pwd_var, "/.", 0);
-			repl_env_var(mini, mini->parsed_env, pwd_var2, env_pos(mini, "PWD"));
-			free(pwd_var);
-			free(pwd_var2);
-		}
-		if (ft_strcmp(cmd[1], "..") == 0 || ft_strcmp(cmd[1], "../") == 0)
-		{
-			ft_putendl_fd("cd: error determining current directory: getcwd: cannot access parent directories: no such file or directory", STDERR);
-			pwd_var = ft_strjoin("PWD=", mini->parsed_env[env_pos(mini, "PWD")].value, 0);
-			pwd_var2 = ft_strjoin(pwd_var, "/..", 0);
-			repl_env_var(mini, mini->parsed_env, pwd_var2, env_pos(mini, "PWD"));
-			free(pwd_var);
-			free(pwd_var2);
-		}
-	}
+		update_pwd_cd_point(mini, cmd);
 }
 
 int	in_current(char *cmd)
 {
-	DIR	*dir;
+	DIR		*dir;
 	char	*check_current;
 
 	check_current = ft_strjoin("./", cmd, 0);
@@ -182,23 +197,15 @@ int	in_current(char *cmd)
 	return (0);
 }
 
-void	add_cd_path(t_minish *mini, char **cmd)
+int	cdpath_matches(char **path, char **cmd)
 {
-	int	i;
-	int	found_path;
-	int	path_pos;
-	char	**path;
+	int		i;
+	int		found_path;
 	char	*complete_dir_path;
-	DIR	*dir;
+	DIR		*dir;
 
-	if (in_current(cmd[1]))
-		return ;
 	i = 0;
 	found_path = 0;
-	path_pos = is_in_env(mini, "CDPATH");
-	if (path_pos == -1)
-		return ;
-	path = ft_split(mini->parsed_env[path_pos].value, ":");
 	while (path[i] && !found_path)
 	{
 		if (path[i][ft_strlen(path[i]) - 1] == '/')
@@ -214,18 +221,43 @@ void	add_cd_path(t_minish *mini, char **cmd)
 		free(complete_dir_path);
 	}
 	if (found_path)
+		return (1);
+	return (0);
+}
+
+void	add_cd_path(t_minish *mini, char **cmd)
+{
+	int		i;
+	int		found_path;
+	int		path_pos;
+	char	**path;
+
+	if (in_current(cmd[1]))
+		return ;
+	i = 0;
+	found_path = 0;
+	path_pos = is_in_env(mini, "CDPATH");
+	if (path_pos == -1)
+		return ;
+	path = ft_split(mini->parsed_env[path_pos].value, ":");
+	if (cdpath_matches(path, cmd))
 		prefix_path(path[i], cmd, 1);
 	free_strarray(path);
 }
 
-int	ft_cd(t_minish *mini, char **cmd)
+int	display_cd_error(char **cmd)
 {
-	char	cwd[PATH_MAX];
-	int		pass_cwd;
-	
-	pass_cwd = 0;
-	if (getcwd(cwd, PATH_MAX))
-		pass_cwd = 1;
+	ft_putstr_fd("minishell: ", STDERR);
+	ft_putstr_fd(cmd[0], STDERR);
+	ft_putstr_fd(": ", STDERR);
+	ft_putstr_fd(cmd[1], STDERR);
+	ft_putstr_fd(": ", STDERR);
+	ft_putendl_fd(strerror(errno), STDERR);
+	return (1);
+}
+
+int	cd_special_cases(t_minish *mini, char **cmd)
+{
 	if (args_number(cmd) > 2)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR);
@@ -238,22 +270,32 @@ int	ft_cd(t_minish *mini, char **cmd)
 		else
 			return (0);
 	}
-	if (cd_home(mini, cmd))
+	return (-1);
+}
+
+int	ft_cd(t_minish *mini, char **cmd)
+{
+	char	cwd[PATH_MAX];
+	int		pass_cwd;
+	int		special_cases;
+
+	pass_cwd = 0;
+	special_cases = cd_special_cases(mini, cmd);
+	if (getcwd(cwd, PATH_MAX))
+		pass_cwd = 1;
+	if (special_cases != -1)
+		return (special_cases);
+	if (cd_home(mini, cmd) == 1)
 		return (1);
+	else if (cd_home(mini, cmd) == -1)
+		return (0);
 	if (cd_oldpwd(mini, cmd))
 		return (1);
-	if (cmd[1] && cmd[1][0] != '.' && cmd[1][0] != '/' && env_pos(mini, "CDPATH") != -1)
+	if (cmd[1] && cmd[1][0] != '.' && cmd[1][0] != '/'
+		&& env_pos(mini, "CDPATH") != -1)
 		add_cd_path(mini, cmd);
 	if (chdir(cmd[1]) == -1)
-	{
-		ft_putstr_fd("minishell: ", STDERR);
-		ft_putstr_fd(cmd[0], STDERR);
-		ft_putstr_fd(": ", STDERR);
-		ft_putstr_fd(cmd[1], STDERR);
-		ft_putstr_fd(": ", STDERR);
-		ft_putendl_fd(strerror(errno), STDERR);
-		return (1);
-	}
+		return (display_cd_error(cmd));
 	if (pass_cwd)
 		update_oldpwd(mini, cwd);
 	update_pwd(mini, cmd);
