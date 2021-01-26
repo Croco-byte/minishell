@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/25 14:06:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 16:19:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ void	display_parsed_env(t_env *parsed_env, int which);
 void	increase_shell_level(t_minish *mini);
 
 /* DECLARATION OF PARSING FUNCTIONS */
-char	**parse_line_temp(char *line);
 void	parse(t_minish *mini);
 void	display_chained_list(t_minish *mini);
 void	type_arg(t_token *token, int separator);
@@ -192,7 +191,7 @@ void	replace_code(char *result, char *src, char *to_insert, int index);
 int		is_escaped(char *str, int index);
 
 
-extern t_status status;
+extern t_status g_status;
 #endif
 
 
@@ -201,7 +200,7 @@ extern t_status status;
 > [DONE]	Gérer cd ~ (variable d'environnement HOME)
 > [DONE]	Gérer cd - (variable d'environnement OLDPWD)
 > [DONE]	Gérer le cas des backslashs : si un backslash est escape, il ne neutralise pas le caractère suivant. Exemple : echo "Hello \\$PATH" doit afficher la variable d'environnement PATH.
-> 			Gérer le cas de echo : "echo -nnnnnnn hi" doit fonctionner comme "echo -n hi".
+> [DONE]	Gérer le cas de echo : "echo -nnnnnnn hi" doit fonctionner comme "echo -n hi".
 > [DONE]	Modifier les affichages de message d'erreur pour qu'ils aillent bien vers STDERR et pas STDOUT.
 > [DONE]	S'occuper de la variable d'environnement shell level.
 > [DONE]	S'assurer que, dans la commande, les tabulations, new_lines etc... soient bien traités comme des espaces.

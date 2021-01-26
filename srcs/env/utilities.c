@@ -6,25 +6,22 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/25 12:38:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 13:42:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Ces fonctions servent à la manipulation de l'environnement dans sa version parsée (vérifier qu'une variable passée à une commande est bien dans l'environnement,
-trier l'environnement pour l'afficher par ordre alphabétique, afficher l'environnement.) */
-
-int		is_env_char(int c)
+int	is_env_char(int c)
 {
 	if (ft_isalnum(c) == 1 || c == '_')
 		return (1);
 	return (0);
 }
 
-int		is_in_env(t_minish *mini, char *var)
+int	is_in_env(t_minish *mini, char *var)
 {
-	int	i;
+	int		i;
 	char	*key;
 
 	key = ft_substr(var, 0, get_key_len(var));
@@ -44,13 +41,13 @@ int		is_in_env(t_minish *mini, char *var)
 
 t_env	*copy_parsed_env(t_env *parsed_env)
 {
-	int	i;
-	int	var_nb;
+	int		i;
+	int		var_nb;
 	t_env	*copy;
 
 	i = 0;
 	var_nb = env_var_nb(parsed_env);
-	copy = malloc((var_nb + 1) * sizeof(t_env));
+	copy = malloc((var_nb + 1) *sizeof(t_env));
 	if (!copy)
 		return (0);
 	while (i < var_nb)
@@ -66,9 +63,9 @@ t_env	*copy_parsed_env(t_env *parsed_env)
 
 void	sort_parsed_env(t_env *parsed_env)
 {
-	int	i;
-	int	j;
-	int	var_nb;
+	int		i;
+	int		j;
+	int		var_nb;
 	t_env	temp;
 
 	i = 0;

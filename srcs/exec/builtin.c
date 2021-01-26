@@ -6,17 +6,15 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:35:25 by user42            #+#    #+#             */
-/*   Updated: 2021/01/25 16:39:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 14:53:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Fonction qui redirige vers le bon builtin lorsqu'on a reçu une commande */
-
 int	exec_builtin(t_minish *mini, char **cmd)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
 	if (ft_strcmp(cmd[0], "pwd") == 0)

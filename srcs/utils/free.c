@@ -6,27 +6,23 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:44:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 12:37:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 16:51:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Fonctions utilitaires pour free nos variables avant de quitter */
-
 void	clean_exit(t_minish *mini)
 {
-//	ft_putendl_fd("Bye ! 👋", 1);
 	free_strarray(mini->env);
 	free_parsed_env(mini->parsed_env);
 	free_token(mini->start);
-//	ft_printf("[DEBUG] Exiting with code : %i\n", status.code);
-	exit(status.code);
+	exit(g_status.code);
 }
 
 void	free_strarray(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!args)
@@ -41,7 +37,7 @@ void	free_strarray(char **args)
 
 void	free_parsed_env(t_env *parsed_env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!parsed_env)

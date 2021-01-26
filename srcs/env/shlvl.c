@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:26:23 by user42            #+#    #+#             */
-/*   Updated: 2021/01/21 11:46:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 13:41:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	increment_shlvl(t_minish *mini, int shlvl_pos)
 {
-	int	current_shlvl;
+	int		current_shlvl;
 	char	*new_shlvl;
 	char	*new_shlvl_var;
 

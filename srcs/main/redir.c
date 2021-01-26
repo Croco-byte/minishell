@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 14:36:00 by user42            #+#    #+#             */
-/*   Updated: 2021/01/25 13:54:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 15:32:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	redir(t_minish *mini, t_token *token, int type)
 		ft_putstr_fd(token->str, STDERR);
 		ft_putendl_fd(": no such file or directory", STDERR);
 		mini->no_exec = 1;
-		status.code = 1;
+		g_status.code = 1;
 		return ;
 	}
 	dup2(mini->fdout, STDOUT);
@@ -41,13 +41,13 @@ void	input(t_minish *mini, t_token *token)
 		ft_putstr_fd(token->str, STDERR);
 		ft_putendl_fd(": no such file or directory", STDERR);
 		mini->no_exec = 1;
-		status.code = 1;
+		g_status.code = 1;
 		return ;
 	}
 	dup2(mini->fdin, STDIN);
 }
 
-int		minipipe(t_minish *mini)
+int	minipipe(t_minish *mini)
 {
 	pid_t	pid;
 	int		pipefd[2];

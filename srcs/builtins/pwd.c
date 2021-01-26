@@ -6,13 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 17:21:49 by user42            #+#    #+#             */
-/*   Updated: 2021/01/23 15:05:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 13:30:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Affiche simplement le present working directory */
 
 int	ft_pwd(t_minish *mini, char **cmd)
 {
@@ -35,7 +33,8 @@ int	ft_pwd(t_minish *mini, char **cmd)
 	}
 	else
 	{
-		ft_putendl_fd("minishell: pwd: could not determine current directory: no such file or directory", STDERR);
+		ft_putstr_fd("minishell: pwd: could not determine ", STDERR);
+		ft_putendl_fd("current directory: no such file or directory", STDERR);
 		return (1);
 	}
 }

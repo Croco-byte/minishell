@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
-/*   Updated: 2021/01/24 11:45:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 13:06:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_echo_flag(char *str, char c)
 		return (0);
 	if (str[i] == '\0')
 		return (0);
-	while(str[i] && str[i] == c)
+	while (str[i] && str[i] == c)
 		i++;
 	if (str[i] != '\0')
 		return (0);
