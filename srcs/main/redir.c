@@ -16,7 +16,7 @@ void	redir(t_minish *mini, t_token *token, int type)
 {
 	ft_close(mini->fdout);
 	if (type == TRUNC)
-		mini->fdout = open(token->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		mini->fdout = open(token->str, O_RDWR | O_CREAT, 0666); // | O_WRONLY | O_TRUNC, S_IRWXU);
 	else
 		mini->fdout = open(token->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	if (mini->fdout == -1)
