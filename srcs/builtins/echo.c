@@ -6,16 +6,27 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 16:23:20 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 15:45:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 13:06:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* TODO :
-	- Flag -n : le cas de "echo -nnnnn"
-	- La gestion de l'escaping character \ et des characters spéciaux : par exemple "echo hey\\nyou"
-*/
+int	is_echo_flag(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	if (str[i++] != '-')
+		return (0);
+	if (str[i] == '\0')
+		return (0);
+	while (str[i] && str[i] == c)
+		i++;
+	if (str[i] != '\0')
+		return (0);
+	return (1);
+}
 
 int	ft_echo(char **cmd)
 {
@@ -26,15 +37,15 @@ int	ft_echo(char **cmd)
 	option_n = 0;
 	if (args_number(cmd) > 1)
 	{
-		while (cmd[i] != 0 && ft_strcmp(cmd[i], "-n") == 0)
+		while (cmd[i] != 0 && is_echo_flag(cmd[i], 'n'))
 		{
 			option_n = 1;
 			i++;
 		}
 		while (cmd[i])
 		{
-			ft_putstr_fd(cmd[i], 1);
-			if (cmd[i + 1] && cmd[i][0] != '\0')
+			ft_putstr_fd(cmd[i], STDOUT);
+			if (cmd[i + 1])
 				write(1, " ", 1);
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 15:21:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/18 16:58:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 16:50:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	var_end_dist(char *str, int index)
 	return (i);
 }
 
-int		exp_in_env(t_minish *mini, char *arg, int begin)
+int	exp_in_env(t_minish *mini, char *arg, int begin)
 {
 	int		i;
 	char	*key;
@@ -75,7 +75,7 @@ void	replace_str(char *result, char *src, char *to_insert, int index)
 		result[i] = src[i];
 	if (to_insert)
 	{
-		while(j < (int)ft_strlen(to_insert))
+		while (j < (int)ft_strlen(to_insert))
 			result[i++] = to_insert[j++];
 	}
 	j = index + var_end_dist(src, index);
@@ -95,7 +95,7 @@ void	replace_code(char *result, char *src, char *to_insert, int index)
 		result[i] = src[i];
 	if (to_insert)
 	{
-		while(j < (int)ft_strlen(to_insert))
+		while (j < (int)ft_strlen(to_insert))
 			result[i++] = to_insert[j++];
 	}
 	j = index + 2;

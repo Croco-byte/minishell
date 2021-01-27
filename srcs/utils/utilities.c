@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 12:10:47 by user42            #+#    #+#             */
-/*   Updated: 2021/01/20 16:08:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 17:05:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	display_strarray(char **strarray)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!strarray)
@@ -35,13 +35,13 @@ void	display_strarray(char **strarray)
 
 char	**copy_strarray(char **src)
 {
-	int	i;
-	int	arg_nb;
+	int		i;
+	int		arg_nb;
 	char	**copy;
 
 	i = 0;
 	arg_nb = args_number(src);
-	copy = malloc((arg_nb + 1) * sizeof(char *));
+	copy = malloc((arg_nb + 1) *sizeof(char *));
 	if (!copy)
 		return (0);
 	while (i < arg_nb)
@@ -70,9 +70,9 @@ int	ft_strcmp_keys(const char *s1, const char *s2)
 
 void	sort_strarray(char **to_sort)
 {
-	int	i;
-	int	j;
-	int	arg_nb;
+	int		i;
+	int		j;
+	int		arg_nb;
 	char	*temp;
 
 	i = 0;
@@ -96,10 +96,10 @@ void	sort_strarray(char **to_sort)
 
 void	ft_prompt(void)
 {
-	if (status.code == 0)
-		ft_putstr_fd("\033[1;32m🐊 minishell ▸ \033[0m", 1);
+	if (g_status.code == 0)
+		ft_putstr_fd("\033[1;32m🐊 minishell ▸ \033[0m", STDERR);
 	else
-		ft_putstr_fd("\033[1;31m🐊 minishell ▸ \033[0m", 1);
+		ft_putstr_fd("\033[1;31m🐊 minishell ▸ \033[0m", STDERR);
 }
 
 int	is_builtin(char *prog_name)
@@ -114,7 +114,7 @@ int	is_builtin(char *prog_name)
 
 int	args_number(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!args)

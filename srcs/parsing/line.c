@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:39:46 by user42            #+#    #+#             */
-/*   Updated: 2021/01/20 15:54:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 16:43:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ char	*space_alloc(char *line)
 			count++;
 		i++;
 	}
-	if (!(new = malloc(sizeof(char) * (i + 2 * count + 1))))
-		return (NULL);
+	new = malloc(sizeof(char) * (i + 2 * count + 1));
+	if (!new)
+		return (0);
 	return (new);
 }
 
@@ -60,13 +61,13 @@ char	*space_line(char *line)
 	return (new);
 }
 
-int		quote_check(t_minish *mini, char **line)
+int	quote_check(t_minish *mini, char **line)
 {
 	if (quotes(*line, 2147483647))
 	{
 		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
 		ft_memdel(*line);
-		status.code = 2;
+		g_status.code = 2;
 		mini->start = NULL;
 		return (1);
 	}
@@ -86,10 +87,22 @@ void	display_chained_list(t_minish *mini)
 		mini->start = mini->start->prev;
 }
 
+void	reset_after_squish(t_minish *mini)
+{
+	t_token	*token;
+
+	token = mini->start;
+	while (token)
+	{
+		if (is_tok_type(token, ARG))
+			type_arg(token, 0);
+		token = token->next;
+	}
+}
+
 void	parse(t_minish *mini)
 {
 	char	*line;
-//	t_token	*token;
 
 	line = 0;
 	ft_prompt();
@@ -102,19 +115,10 @@ void	parse(t_minish *mini)
 	if (quote_check(mini, &line))
 		return ;
 	line = space_line(line);
-	ft_printf("Line : %s\n", line);
 	if (line && line[0] == '$')
 		line[0] = (char)(-line[0]);
 	mini->start = get_tokens(line);
-	display_chained_list(mini);
 	ft_memdel(line);
 	squish_args(mini);
-//	token = mini->start;
-//	while (token)
-//	{
-//		if (is_tok_type(token, ARG))
-//			type_arg(token, 0);
-//		token = token->next;
-//	}
-//	display_chained_list(mini);
+	reset_after_squish(mini);
 }
