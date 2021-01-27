@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:14:42 by user42            #+#    #+#             */
-/*   Updated: 2021/01/26 13:42:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 12:34:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 int	is_env_char(int c)
 {
 	if (ft_isalnum(c) == 1 || c == '_')
+		return (1);
+	return (0);
+}
+
+int	is_env_var(char *var)
+{
+	int	i;
+
+	i = 0;
+	if (var && (ft_isdigit(var[0]) || var[0] == '='))
+		return (0);
+	while (var && var[i] && (ft_isalnum(var[i]) || var[i] == '_'))
+		i++;
+	if (var[i] == '\0' || var[i] == '='
+		|| (var[i] == '+' && var[i + 1] && var[i + 1] == '='))
 		return (1);
 	return (0);
 }
@@ -59,76 +74,4 @@ t_env	*copy_parsed_env(t_env *parsed_env)
 	}
 	copy[i].key = 0;
 	return (copy);
-}
-
-void	sort_parsed_env(t_env *parsed_env)
-{
-	int		i;
-	int		j;
-	int		var_nb;
-	t_env	temp;
-
-	i = 0;
-	var_nb = env_var_nb(parsed_env);
-	while (i < var_nb)
-	{
-		j = i + 1;
-		while (j < var_nb)
-		{
-			if (ft_strcmp(parsed_env[i].key, parsed_env[j].key) > 0)
-			{
-				temp = parsed_env[i];
-				parsed_env[i] = parsed_env[j];
-				parsed_env[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	display_non_empty(t_env *parsed_env, int which, int i)
-{
-	if (which)
-		ft_putstr_fd("declare -x ", STDOUT);
-	ft_putstr_fd(parsed_env[i].key, STDOUT);
-	ft_putchar_fd('=', STDOUT);
-	if (which)
-		ft_putchar_fd('"', STDOUT);
-	ft_putstr_fd(parsed_env[i].value, STDOUT);
-	if (which)
-		ft_putchar_fd('"', STDOUT);
-	ft_putchar_fd('\n', STDOUT);
-}
-
-void	display_empty(t_env *parsed_env, int which, int i)
-{
-	if (which)
-	{
-		ft_putstr_fd("declare -x ", STDOUT);
-		ft_putstr_fd(parsed_env[i].key, STDOUT);
-		if (parsed_env[i].has_space)
-			ft_putstr_fd("=\"\"", STDOUT);
-		ft_putchar_fd('\n', STDOUT);
-	}
-	else if (parsed_env[i].has_space)
-	{
-		ft_putstr_fd(parsed_env[i].key, STDOUT);
-		ft_putendl_fd("=", STDOUT);
-	}
-}
-
-void	display_parsed_env(t_env *parsed_env, int which)
-{
-	int	i;
-
-	i = 0;
-	while (parsed_env[i].key)
-	{
-		if (parsed_env[i].value[0] != '\0')
-			display_non_empty(parsed_env, which, i);
-		else
-			display_empty(parsed_env, which, i);
-		i++;
-	}
 }

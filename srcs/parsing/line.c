@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:39:46 by user42            #+#    #+#             */
-/*   Updated: 2021/01/26 16:43:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 12:42:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,6 @@ int	quote_check(t_minish *mini, char **line)
 		return (1);
 	}
 	return (0);
-}
-
-void	display_chained_list(t_minish *mini)
-{
-	while (mini->start->next)
-	{
-		printf("%s [TYPE %i] ; ", mini->start->str, mini->start->type);
-		mini->start = mini->start->next;
-	}
-	printf("%s [TYPE %i] ", mini->start->str, mini->start->type);
-	printf("\n");
-	while (mini->start && mini->start->prev)
-		mini->start = mini->start->prev;
 }
 
 void	reset_after_squish(t_minish *mini)

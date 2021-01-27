@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 14:36:00 by user42            #+#    #+#             */
-/*   Updated: 2021/01/26 15:32:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 11:37:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	redir(t_minish *mini, t_token *token, int type)
 {
 	ft_close(mini->fdout);
 	if (type == TRUNC)
-		mini->fdout = open(token->str, O_RDWR | O_CREAT, 0666); // | O_WRONLY | O_TRUNC, S_IRWXU);
+		mini->fdout = open(token->str, O_RDWR | O_CREAT, 0666);
 	else
 		mini->fdout = open(token->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	if (mini->fdout == -1)

@@ -6,15 +6,12 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/01/26 16:19:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 12:53:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define SUCCESS 0
-# define ERROR 1
 
 # define SEPARATORS " \t\r\n\a\v"
 
@@ -65,20 +62,17 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	char	*str;
-	int		type;
-	struct	s_token	*prev;
-	struct	s_token	*next;
-}		t_token;
+	char			*str;
+	int				type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}					t_token;
 
 typedef struct s_minish
 {
 	char	**env;
 	t_env	*parsed_env;
-
 	t_token	*start;
-
-
 	int		in;
 	int		out;
 	int		fdin;
@@ -89,10 +83,7 @@ typedef struct s_minish
 	int		parent;
 	int		last;
 	int		charge;
-
 	int		pid;
-
-
 }			t_minish;
 
 /* DECLARATION OF MAIN FUNCTIONS */
@@ -109,28 +100,45 @@ int		exec_builtin(t_minish *mini, char **cmd);
 int		exec_bin(t_minish *mini, char **cmd);
 
 void	prefix_path(char *path, char **cmd, int i);
+void	add_path(t_minish *mini, char **cmd);
+
+int		is_ignored_char(char *cmd, int i);
+char	*strip_quotes(char *cmd);
+char	**delete_arg(char **cmd, int i);
 
 /* DECLARATION OF BUILTIN FUNCTIONS */
 int		ft_pwd(t_minish *mini, char **cmd);
-int		ft_cd(t_minish *mini, char **cmd);
 int		ft_echo(char **cmd);
 int		ft_env(t_minish *mini, char **cmd);
 int		ft_export(t_minish *mini, char **cmd);
 int		ft_unset(t_minish *mini, char **cmd);
 int		ft_exit(t_minish *mini, char **cmd);
 
-void	add_env_var(t_minish *mini, char *var);
-void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos);
+int		ft_cd(t_minish *mini, char **cmd);
+int		env_pos(t_minish *mini, char *name);
+int		cd_home(t_minish *mini, char **cmd);
+int		cd_oldpwd(t_minish *mini, char **cmd);
+void	update_oldpwd(t_minish *mini, char *cwd);
+void	add_cd_path(t_minish *mini, char **cmd);
+void	update_pwd(t_minish *mini, char **cmd);
 
 /* DECLARATION OF ENV FUNCTIONS */
 void	parse_env(t_minish *mini, char **env);
 char	**update_env(char **env, t_env *parsed_env);
 int		get_key_len(char *var);
 char	*get_value(char *var, int pos, int i, t_env *parsed_env);
+
 int		is_in_env(t_minish *mini, char *var);
+int		is_env_var(char *var);
+
 t_env	*copy_parsed_env(t_env *parsed_env);
 void	sort_parsed_env(t_env *parsed_env);
 void	display_parsed_env(t_env *parsed_env, int which);
+int		display_sorted(t_minish *mini);
+
+void	add_env_var(t_minish *mini, char *var);
+void	repl_env_var(t_minish *mini, t_env *parsed_env, char *var, int pos);
+
 void	increase_shell_level(t_minish *mini);
 
 /* DECLARATION OF PARSING FUNCTIONS */
@@ -160,8 +168,6 @@ void	clean_exit(t_minish *mini);
 void	free_token(t_token *start);
 void	ft_prompt(void);
 void	display_strarray(char **strarray);
-char	**copy_strarray(char **src);
-void	sort_strarray(char **to_sort);
 void	free_strarray(char **args);
 void	free_parsed_env(t_env *parsed_env);
 void	*ft_memdel(void *ptr);
@@ -190,10 +196,10 @@ void	replace_code(char *result, char *src, char *to_insert, int index);
 
 int		is_escaped(char *str, int index);
 
+void	display_chained_list(t_minish *mini);
 
-extern t_status g_status;
+extern t_status	g_status;
 #endif
-
 
 /* TODO
 > [DONE]	Affichage de env : retirer le "declare -x" qui n'est présent que dans le cadre de la commande export.
@@ -213,12 +219,8 @@ extern t_status g_status;
 > [DONE]	Régler le cas de "export HOME=", qui ne vide pas la variable existante HOME.
 > [DONE]	export test= : affiche test= dans "env", affiche declare -x test="" dans "export" ; "export test" n'affiche rien dans "env", et affiche declare -x test dans "export".
 > [DONE]	export HOME (sans égal) ne remplace PAS la variable HOME existante ; export HOME= remplace la variable HOME existante par du vide.
->			SIGINT affiche un code d'erreur 2 au lieu de 130.
-
-BUGS TO FIX :
+> [DONE]	SIGINT affiche un code d'erreur 2 au lieu de 130.
 > [DONE]	cd ; pwd
 > [DONE]	mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; pwd ; cd . ; pwd ; cd .. ; pwd
 > [DONE]	echo $TEST$TEST=lol$TEST""lol
-
-
 */

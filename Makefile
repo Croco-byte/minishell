@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/05 15:18:35 by user42            #+#    #+#              #
-#    Updated: 2021/01/26 16:48:50 by user42           ###   ########.fr        #
+#    Updated: 2021/01/27 12:51:40 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,11 @@ LIBFT = -L libft -lft
 HEADER = minishell.h
 
 MAIN = minishell signal redir
-BUILTINS = pwd cd echo env export unset exit
-EXEC = bin builtin exec
-PARSING = line tokens expansion
-UTILS = utilities free parser token type init fd expansion_tools
-ENV = init utilities shlvl
+BUILTINS = pwd cd echo env export unset exit cd_home_oldpwd cd_pwd_cdpath
+EXEC = bin builtin exec format_cmd format_cmd_utils path
+PARSING = line tokens expansion squish
+UTILS = utilities free parser parser2 token type init fd expansion_tools display
+ENV = env_parse utilities shlvl sort_display alter_env
 
 SRCS =	$(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
 		$(addsuffix .c, $(addprefix srcs/builtins/, $(BUILTINS))) \
