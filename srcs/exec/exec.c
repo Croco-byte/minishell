@@ -66,4 +66,6 @@ void	exec_cmd(t_minish *mini, t_token *token)
 		status.code = exec_bin(mini, cmd);
 	free_strarray(cmd);
 	mini->charge = 0;
+	mini->pipin = -1;
+	mini->pipout = -1;
 }
